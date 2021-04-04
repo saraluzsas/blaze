@@ -1,0 +1,57 @@
+<template>
+    <section v-if="show">
+        <h2>Un paso más</h2>
+
+        <p>Hemos enviado un mensaje de texto con un código de verificación, escribelo a continuación.</p>
+
+        <form @submit.prevent="verifyCode">
+            <div class="field">
+                <label for="code">Código de verificación</label>
+                <input
+                    id="code"
+                    type="tel"
+                    v-model="code"
+                    class="input is-spread"
+                    placeholder="000 000"
+                    autocomplete="off"
+                    minlength="6"
+                    maxlength="6"
+                    required>
+            </div>
+
+            <div class="wrapper">
+                <button
+                    type="submit"
+                    class="is-primary is-spread"
+                    :class="{ 'has-loader': isLoading }"
+                    :disabled="isLoading">
+
+                    <span>Continuar</span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section v-else>
+        <h2>No deberias estar aquí</h2>
+
+        <p>No hay ninguna solicitud para iniciar sesión. Regresa e ingresa tu número de teléfono para llegar aquí.</p>
+
+        <div class="wrapper">
+            <router-link :to="{ name: 'send-code' }" class="button is-outline is-spread">Regresar</router-link>
+        </div>
+    </section>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue"
+import { useAuth } from "./useAuth"
+
+export default defineComponent({
+    setup() {
+        const { showVerification: show, code, isLoading, verifyCode } = useAuth()
+
+        return { show, code, isLoading, verifyCode }
+    }
+})
+</script>

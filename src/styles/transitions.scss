@@ -1,0 +1,27 @@
+.slide-fade {
+    $slide: 3rem;
+
+    &-leave-active,
+    &-enter-active {
+        transition: opacity .3s ease, transform .6s ease-out;
+    }
+    
+    &-leave-to {
+        transform: translateX(-$slide);
+        opacity: 0;
+    }
+
+    &-move {
+        position: absolute;
+    }
+
+    &-enter-from {
+        transform: translateX($slide);
+        opacity: 0;
+    }
+
+    &-enter-to,
+    &-leave-from {
+        opacity: 1;
+    }
+}

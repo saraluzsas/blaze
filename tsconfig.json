@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "jsx": "preserve",
+        "target": "ESNext",
+        "module": "ESNext",
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "baseUrl": "src",
+        "paths": {
+            "@/*": ["./*"],
+        },
+        "lib": ["DOM", "ESNext"],
+        
+    },
+    "exclude": ["node_modules/"]
+}
