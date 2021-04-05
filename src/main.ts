@@ -17,7 +17,7 @@ firebase.initializeApp({
 // vue
 
 import { createApp } from "vue"
-import { router } from "./router/router"
+import { router } from "./views/router"
 
 import App from "./App.vue"
 

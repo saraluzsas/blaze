@@ -29,7 +29,11 @@
         </article>
 
         <div class="wrapper">
-            <button class="is-primary" @click="showCamera = true">
+            <button
+                class="is-primary"
+                @click="showCamera = true"
+                :disabled="disabled">
+
                 <feather-icon name="camera"></feather-icon>
                 <span>Tomar foto</span>
             </button>
@@ -38,12 +42,13 @@
 
     <camera-modal
         v-if="showCamera"
-        @close="closeCamera">
+        @close="closeCamera"
+        @taken="photoTaken">
     </camera-modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue"
+import { computed, defineComponent, reactive, toRefs } from "vue"
 
 import CameraModal from "@/components/camera-modal.vue"
 import ConsignmentDetail from "@/components/consignment-detail.vue"
@@ -64,18 +69,29 @@ export default defineComponent({
             showCamera: false,
         })
 
+        const disabled = computed(function () {
+            return state.details.every(detail => detail.amount === "" || detail.date === "")
+        })
+
         const addDetail = () => state.details.push({ amount: "", date: "" })
         const removeDetail = (index: number) => state.details = state.details.filter((curr, key) => key !== index)
 
         const closeCamera = () => state.showCamera = false
 
+        const photoTaken = (data: string) => {
+            state.photo = data
+            state.showCamera = false
+        }
+
         return {
+            disabled,
             ...toRefs(state),
 
             addDetail,
             removeDetail,
 
             closeCamera,
+            photoTaken,
         }
     }
 })

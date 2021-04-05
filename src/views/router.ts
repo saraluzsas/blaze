@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
-import { isLogged, isLogged } from "vue-use-firebase"
+import { isLogged } from "vue-use-firebase"
 
 const store: RouteRecordRaw = {
     path: "store",
@@ -29,13 +29,13 @@ const routes: RouteRecordRaw[] = [
                 path: "",
                 alias: ["send"],
                 name: "send-code",
-                component: () => import("./views/auth/send-code.vue")
+                component: () => import("./pages/auth/send-code.vue")
             },
 
             {
                 path: "code",
                 name: "verify-code",
-                component: () => import("./views/auth/verify-code.vue")
+                component: () => import("./pages/auth/verify-code.vue")
             }
         ]
     },
@@ -47,7 +47,7 @@ const routes: RouteRecordRaw[] = [
             {
                 path: "",
                 name: "home",
-                component: () => import("./views/home/dashboard.vue")
+                component: () => import("./pages/home/dashboard.vue")
             },
 
             store

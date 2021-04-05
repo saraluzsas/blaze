@@ -1,27 +1,118 @@
 <template>
     <div class="camera--modal modal is-open">
         <div class="modal-body">
+            <div class="camera--video container">
+                <video class="radius-md" ref="videoRef" v-show="stream" autoplay></video>
+
+                <div class="loader" v-if="isLoading"></div>
+
+                <div class="container" v-if="!available">
+                    <p>El acceso a la camara no esta disponible.</p>
+                </div>
+            </div>
 
             <div class="wrapper">
-                <button class="is-primary">
+                <button
+                    class="is-primary"
+                    @click="takePicture"
+                    :disabled="isLoading || !available">
+
                     <span>Capturar y guardar</span>
                 </button>
 
-                <button @click="close">Cancelar</button>
+                <button :disabled="isLoading" @click="close">Cancelar</button>
             </div>
         </div>
     </div>
 </template>
 
+<style lang="scss">
+.camera--modal {
+    .camera--video {
+        min-height: 60%;
+        max-height: 60%;
+        justify-content: center;
+        align-items: center;
+
+        video {
+            max-width: 90%;
+            max-height: 100%;
+        }
+    }
+}
+</style>
+
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, onMounted, reactive, toRefs } from "vue"
 
 export default defineComponent({
     setup(props, { emit }) {
-        const close = () => emit("close")
+        const state = reactive({
+            videoRef: undefined,
+            stream: undefined,
+
+            available: true,
+            isLoading: true,
+        })
+
+        onMounted(async function () {
+            state.isLoading = true
+
+            try {
+                const constraints: MediaStreamConstraints = {
+                    audio: false,
+                    video: {
+                        width: 720,
+                        height: 410,
+                    }
+                }
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints)
+
+                state.stream = stream
+                state.videoRef.srcObject = stream
+            }
+
+            catch (err) {
+                state.available = false
+            }
+
+            finally {
+                state.isLoading = false
+            }
+        })
+
+        async function closeStream() {
+            if (state.stream) {
+                const tracks = state.stream.getTracks()
+                tracks.forEach((track: MediaStreamTrack) => track.stop())
+            }
+        }
+
+        async function close() {
+            await closeStream()
+            emit("close")
+        }
+
+        function takePicture() {
+            const canvas = document.createElement("canvas")
+
+            canvas.width = state.videoRef.videoWidth
+            canvas.height = state.videoRef.videoHeight
+
+            canvas.getContext("2d").drawImage(state.videoRef, 0, 0, canvas.width, canvas.height)
+
+            const data = canvas.toDataURL("image/png")
+            
+            closeStream()
+            emit("taken", data)
+        }
 
         return {
-            close
+            close,
+            takePicture,
+
+            ...toRefs(state)
         }
     }
 })
