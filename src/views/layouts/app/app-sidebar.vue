@@ -3,20 +3,24 @@
         <div class="sidebar-menu">
             <app-profile></app-profile>
 
-            <a class="sidebar-item">
-                <feather-icon name="shuffle"></feather-icon>
-                <span>Cruces</span>
-            </a>
+            <authorized roles="developer, auditor">
+                <a class="sidebar-item">
+                    <feather-icon name="shuffle"></feather-icon>
+                    <span>Cruces</span>
+                </a>
 
-            <a class="sidebar-item">
-                <feather-icon name="users"></feather-icon>
-                <span>Usuarios</span>
-            </a>
+                <a class="sidebar-item">
+                    <feather-icon name="users"></feather-icon>
+                    <span>Usuarios</span>
+                </a>
+            </authorized>
 
-            <router-link :to="{ name: 'store' }" class="sidebar-item">
-                <feather-icon name="shopping-bag"></feather-icon>
-                <span>Tienda</span>
-            </router-link>
+            <authorized roles="developer, store">
+                <router-link :to="{ name: 'store' }" class="sidebar-item">
+                    <feather-icon name="shopping-bag"></feather-icon>
+                    <span>Tienda</span>
+                </router-link>
+            </authorized>
 
             <hr>
 
@@ -35,21 +39,24 @@
 
 <script lang="ts">
 import { defineComponent } from "vue"
-import { signOut } from "vue-use-firebase"
+import { useAuthStore } from "@stores/authStore"
 import { useRouter } from "vue-router"
 
 import AppProfile from "./app-profile.vue"
+import Authorized from "@components/authorized-view.vue"
 
 export default defineComponent({
     components: {
-        AppProfile
+        AppProfile,
+        Authorized,
     },
 
     setup() {
+        const { actions } = useAuthStore()
         const { push: navigate } = useRouter()
 
         async function logOut() {
-            await signOut()
+            await actions.signOut()
             await navigate({ name: "send-code" })
         }
 

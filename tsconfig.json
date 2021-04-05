@@ -9,6 +9,8 @@
         "baseUrl": "src",
         "paths": {
             "@/*": ["./*"],
+            "@stores/*": ["./stores/*"],
+            "@components/*": ["./components/*"],
         },
         "lib": ["DOM", "ESNext"],
         

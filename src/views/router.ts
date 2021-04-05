@@ -3,18 +3,18 @@ import { isLogged } from "vue-use-firebase"
 
 const store: RouteRecordRaw = {
     path: "store",
-    component: () => import("./views/store/store.vue"),
+    component: () => import("./pages/store/store.vue"),
     children: [
         {
             path: "",
             name: "store",
-            component: () => import("./views/store/store-resume.vue")
+            component: () => import("./pages/store/store-resume.vue")
         },
 
         {
             path: "consignment",
             name: "store-consignment",
-            component: () => import("./views/consignment/create-consignment.vue")
+            component: () => import("./pages/consignment/create-consignment.vue")
         }
     ]
 }
@@ -56,7 +56,7 @@ const routes: RouteRecordRaw[] = [
 
     {
         path: "/:paramsAll(.*)",
-        component: () => import("./views/not-found.vue")
+        component: () => import("./pages/not-found.vue")
     },
 ]
 
