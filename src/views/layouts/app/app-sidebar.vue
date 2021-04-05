@@ -4,18 +4,20 @@
             <app-profile></app-profile>
 
             <authorized roles="developer, auditor">
+                <router-link :to="{ name: 'user-list' }" class="sidebar-item">
+                    <feather-icon name="users"></feather-icon>
+                    <span>Usuarios</span>
+                </router-link>
+            </authorized>
+
+            <authorized roles="auditor">
                 <a class="sidebar-item">
                     <feather-icon name="shuffle"></feather-icon>
                     <span>Cruces</span>
                 </a>
-
-                <a class="sidebar-item">
-                    <feather-icon name="users"></feather-icon>
-                    <span>Usuarios</span>
-                </a>
             </authorized>
 
-            <authorized roles="developer, store">
+            <authorized roles="store">
                 <router-link :to="{ name: 'store' }" class="sidebar-item">
                     <feather-icon name="shopping-bag"></feather-icon>
                     <span>Tienda</span>

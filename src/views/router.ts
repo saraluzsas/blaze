@@ -19,26 +19,48 @@ const store: RouteRecordRaw = {
     ]
 }
 
-const routes: RouteRecordRaw[] = [
-    {
-        path: "/sign",
-        component: () => import("./layouts/auth/auth-layout.vue"),
-        meta: { anonymous: true },
-        children: [
-            {
-                path: "",
-                alias: ["send"],
-                name: "send-code",
-                component: () => import("./pages/auth/send-code.vue")
-            },
+const auth: RouteRecordRaw = {
+    path: "/sign",
+    component: () => import("./layouts/auth/auth-layout.vue"),
+    meta: { anonymous: true },
+    children: [
+        {
+            path: "",
+            alias: ["send"],
+            name: "send-code",
+            component: () => import("./pages/auth/send-code.vue")
+        },
 
-            {
-                path: "code",
-                name: "verify-code",
-                component: () => import("./pages/auth/verify-code.vue")
-            }
-        ]
-    },
+        {
+            path: "code",
+            name: "verify-code",
+            component: () => import("./pages/auth/verify-code.vue")
+        }
+    ]
+}
+
+const user: RouteRecordRaw = {
+    path: "/user",
+    component: () => import("./layouts/app/app-layout.vue"),
+    children: [
+        {
+            path: "",
+            name: "user-list",
+            component: () => import("./pages/user/list-user.vue")
+        },
+
+        {
+            path: "new",
+            name: "user-new",
+            component: () => import("./pages/user/create-user.vue")
+        }
+    ]
+}
+
+const routes: RouteRecordRaw[] = [
+    auth,
+
+    user,
 
     {
         path: "/",

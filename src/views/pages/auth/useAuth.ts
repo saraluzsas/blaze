@@ -1,10 +1,12 @@
 import { onBeforeMount, reactive, toRefs } from "vue"
 import { useRouter } from "vue-router"
 import { useSignIn } from "vue-use-firebase"
+import { useAuthStore } from "@stores/authStore"
 
 const AUTH_KEY = "auth-id"
 
 export function useAuth() {
+    const { actions } = useAuthStore()
     const { sendVerificationCode, signInPhoneNumber } = useSignIn()
     const { push: navigate } = useRouter()
 
@@ -49,6 +51,7 @@ export function useAuth() {
 
             await signInPhoneNumber(id, state.code)
             await navigate({ name: "home" })
+            await actions.fetchUser()
             
             localStorage.removeItem(AUTH_KEY)
         }

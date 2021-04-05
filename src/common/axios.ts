@@ -5,7 +5,6 @@ import "firebase/auth"
 
 axios.interceptors.request.use(req => {
     req.baseURL = import.meta.env.VITE_API_URL
-
     return req
 })
 
