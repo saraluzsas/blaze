@@ -37,7 +37,7 @@
     </section>
 
     <camera-modal
-        :show="showCamera"
+        v-if="showCamera"
         @close="closeCamera">
     </camera-modal>
 </template>

@@ -1,7 +1,10 @@
 {
-    "name": "web",
+    "name": "blaze",
     "version": "0.0.0",
     "main": "src/main.ts",
+    "engines": {
+        "node": ">= 14.0.0"
+    },
     "scripts": {
         "dev": "vite",
         "build": "vite build"

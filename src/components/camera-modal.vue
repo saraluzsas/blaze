@@ -1,5 +1,5 @@
 <template>
-    <div class="camera--modal modal" :class="{ 'is-open': show }">
+    <div class="camera--modal modal is-open">
         <div class="modal-body">
 
             <div class="wrapper">
@@ -17,13 +17,6 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
-    props: {
-        show: {
-            type: Boolean,
-            default: false
-        }
-    },
-    
     setup(props, { emit }) {
         const close = () => emit("close")
 
