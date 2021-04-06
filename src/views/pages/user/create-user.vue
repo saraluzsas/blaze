@@ -1,28 +1,122 @@
 <template>
     <div class="content">
-        <form>
+        <h3>Crear usuario</h3>
+
+        <form @submit.prevent="save">
             <div class="field">
                 <label for="nickname">Apodo</label>
-                <input id="nickname" type="text" class="input is-spread" placeholder="Apodo">
+                <input
+                    id="nickname"
+                    type="text"
+                    class="input is-spread"
+                    placeholder="Apodo"
+                    v-model="nickname"
+                    autocomplete="off"
+                    required>
             </div>
 
             <div class="field">
                 <label for="phone">Teléfono</label>
-                <input id="phone" type="tel" class="input is-spread" placeholder="300 0000 000">
+                <div class="grouper">
+                    <div class="button is-static">+57</div>
+
+                    <input
+                        id="phone"
+                        type="tel"
+                        class="input is-spread"
+                        placeholder="300 0000 000"
+                        pattern="[0-9]+"
+                        maxlength="10"
+                        minlength="10"
+                        autocomplete="off"
+                        v-model="phone"
+                        required>
+                </div>
             </div>
 
             <div class="field">
                 <label for="role">Rol</label>
-                <select class="input" id="role">
+                <select
+                    class="input"
+                    id="role"
+                    v-model="role"
+                    required>
+
+                    <option value="" disabled>Seleciona un rol</option>
                     <option value="developer">Desarrollador</option>
-                    <option value="developer">Auditor</option>
-                    <option value="developer">Tienda</option>
+                    <option value="auditor">Auditor</option>
+                    <option value="store">Tienda</option>
                 </select>
             </div>
 
             <div class="wrapper">
-                <button class="is-primary">Guardar</button>
+                <button
+                    type="submit"
+                    class="is-primary"
+                    :disabled="disabled || loading"
+                    :class="{ 'has-loader': loading }">
+
+                    <span>Guardar</span>    
+                </button>
             </div>
         </form>
     </div>
 </template>
+
+<script lang="ts">
+import { computed, defineComponent, reactive, toRefs } from "vue"
+
+import axios from "axios"
+import { useRouter } from "vue-router"
+
+export default defineComponent({
+    setup() {
+        const { push: navigate } = useRouter()
+
+        const state = reactive({
+            nickname: "",
+            phone: "",
+            role: "",
+
+            loading: false,
+        })
+
+        const disabled = computed(function () {
+            return state.nickname === "" || state.phone === "" || state.role === ""
+        })
+
+        async function save() {
+            state.loading = true
+
+            try {
+                const { nickname, phone, role } = state
+
+                const res = await axios.post("/user", { nickname, phone: "+57" + phone, role })
+                
+                if (res.data.error) {
+
+                }
+
+                else {
+                    await navigate({ name: "user-list" })
+                }
+            }
+            
+            catch (err) {
+                console.error(err.response)
+            }
+
+            finally {
+                state.loading = false
+            }
+        }
+
+        return {
+            ...toRefs(state),
+
+            disabled,
+            save,
+        }
+    }
+})
+</script>

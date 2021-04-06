@@ -59,7 +59,7 @@ export default defineComponent({
 
         async function logOut() {
             await actions.signOut()
-            await navigate({ name: "send-code" })
+            await navigate({ name: "sign-in" })
         }
 
         return { logOut }

@@ -24,7 +24,7 @@ import "./common/axios"
 import { createApp } from "vue"
 import { router } from "./views/router"
 
-import App from "./App.vue"
+import App from "./app.vue"
 
 const app = createApp(App)
 

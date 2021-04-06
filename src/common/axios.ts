@@ -17,6 +17,12 @@ axios.interceptors.request.use(
             req.headers["authorization"] = `Bearer ${token}`
         }
 
+
         return req
     }
 )
+
+axios.interceptors.response.use(res => {
+    if (res.data["data"]) res.data = res.data["data"]
+    return res
+})

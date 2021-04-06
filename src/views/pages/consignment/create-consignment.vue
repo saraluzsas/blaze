@@ -70,7 +70,7 @@ export default defineComponent({
         })
 
         const disabled = computed(function () {
-            return state.details.every(detail => detail.amount === "" || detail.date === "")
+            return state.details.some(detail => detail.amount === "" || detail.date === "")
         })
 
         const addDetail = () => state.details.push({ amount: "", date: "" })

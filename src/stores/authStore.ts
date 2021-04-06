@@ -15,7 +15,7 @@ export const useAuthStore = createStore({
             if (state.user === undefined) {
                 try {
                     const { data } = await axios.get("/auth/me")
-                    state.user = data.data
+                    state.user = data
                 }
     
                 catch (err) {
@@ -25,8 +25,9 @@ export const useAuthStore = createStore({
         },
 
         async signOut(state) {
-            state.user = undefined
             await signOut()
+
+            state.user = undefined
         },
     },
 

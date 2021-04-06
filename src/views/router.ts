@@ -27,7 +27,7 @@ const auth: RouteRecordRaw = {
         {
             path: "",
             alias: ["send"],
-            name: "send-code",
+            name: "sign-in",
             component: () => import("./pages/auth/send-code.vue")
         },
 
@@ -93,6 +93,6 @@ router.beforeEach(async function (to, from, next) {
     if (to.meta.anonymous || isAuthed) next()
 
     else {
-        next({ name: "send-code" })
+        next({ name: "sign-in" })
     }
 })

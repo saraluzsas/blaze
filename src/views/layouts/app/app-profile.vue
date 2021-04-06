@@ -1,5 +1,5 @@
 <template>
-    <div class="app--profile box is-hoverable flex is-spaced">
+    <div class="app--profile box is-link flex is-spaced">
         <div>
             <p class="text-capcase">{{ user?.nickname }}</p>
             <small class="text-capcase">{{ role }}</small>
