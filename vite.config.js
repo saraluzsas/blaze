@@ -7,7 +7,6 @@ import jsx from "@vitejs/plugin-vue-jsx"
 export default defineConfig({
     resolve: {
         alias: {
-            "@": resolve(__dirname, "./src"),
             "@stores": resolve(__dirname, "./src/stores"),
             "@components": resolve(__dirname, "./src/components")
         }
