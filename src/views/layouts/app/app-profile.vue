@@ -16,7 +16,7 @@
 </style>
 
 <script lang="ts">
-import { useAuthStore } from "@/stores/authStore"
+import { useAuthStore } from "@stores/authStore"
 import { computed, defineComponent, toRef } from "vue"
 
 export default defineComponent({

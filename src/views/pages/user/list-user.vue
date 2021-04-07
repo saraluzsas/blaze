@@ -15,15 +15,20 @@
         </div>
 
         <section class="user--list grid has-gap">
-            <user-item></user-item>
+            <user-item
+                v-for="user in users"
+                :key="user._key"
+                :data="user">
+            </user-item>
         </section>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, onBeforeMount, ref } from "vue"
 
 import UserItem from "@components/user-item.vue"
+import axios from "axios"
 
 export default defineComponent({
     components: {
@@ -31,7 +36,28 @@ export default defineComponent({
     },
 
     setup() {
-        
+        const users = ref([])
+
+        onBeforeMount(async function () {
+            try {
+                const res = await axios.get("/user")
+
+                if (res.data.error) {
+                    console.warn(res.data)
+                }
+
+                else {
+                    users.value = res.data
+                }
+            }
+
+            catch (err) {
+                console.error(err)
+                users.value = []
+            }
+        })
+
+        return { users }
     }
 })
 </script>

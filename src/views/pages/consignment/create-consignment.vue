@@ -50,8 +50,8 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue"
 
-import CameraModal from "@/components/camera-modal.vue"
-import ConsignmentDetail from "@/components/consignment-detail.vue"
+import CameraModal from "@components/camera-modal.vue"
+import ConsignmentDetail from "@components/consignment-detail.vue"
 
 export default defineComponent({
     components: {

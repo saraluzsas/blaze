@@ -53,6 +53,12 @@ const user: RouteRecordRaw = {
             path: "new",
             name: "user-new",
             component: () => import("./pages/user/create-user.vue")
+        },
+
+        {
+            path: ":id",
+            name: "user-edit",
+            component: () => import("./pages/user/edit-user.vue")
         }
     ]
 }
