@@ -1,10 +1,10 @@
 <template>
-    <h2>Iniciar sesión</h2>
+    <h3>Iniciar sesión</h3>
 
     <p>Ingresa tu número de teléfono para continuar.</p>
 
     <form @submit.prevent="sendCode">
-        <div class="field">
+        <div class="container">
             <label for="phone">Número de teléfono</label>
             <div class="grouper">
                 <div class="button is-static">+57</div>
@@ -28,7 +28,6 @@
             <button
                 type="submit"
                 class="is-primary is-spread"
-                :class="{ 'has-loader': isLoading }"
                 :disabled="isLoading">
 
                 <span>Continuar</span>

@@ -1,17 +1,27 @@
 <template>
-    <router-link :to="{ name: 'user-edit', params: { id: data._key } }" class="user--item box is-link flex is-spaced">
-        <div class="container">
-            <p class="text-capcase">{{ data.nickname }}</p>
-        
-            <div class="wrapper">
-                <div class="chip text-capcase">{{ role }}</div>
-                <div class="chip">{{ data.phone }}</div>
+    <router-link :to="{ name: 'user-edit', params: { id: data._key } }" class="border radius padding-sm flex-spaced align-center cursor-pointer">
+        <div class="wrapper gap-sm align-center">
+            <img src="https://img.icons8.com/color/96/000000/circled-user-male-skin-type-1-2--v1.png">
+
+            <div class="container">
+                <p class="text-capcase">{{ data.nickname }}</p>
+                <small>{{ data.phone }}</small>
             </div>
         </div>
 
-        <feather-icon name="chevron-right" color="#bbb"></feather-icon>
+        <feather-icon name="chevron-right" class="color-gray"></feather-icon>
     </router-link>
 </template>
+
+<style scoped>
+img {
+    height: 3rem;
+}
+
+.container {
+    gap: 0.2rem;
+}
+</style>
 
 <script lang="ts">
 import { computed, defineComponent } from "vue"

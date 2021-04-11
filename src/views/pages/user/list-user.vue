@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <section class="user--list grid has-gap">
+        <section class="organizer shadow-xs">
             <user-item
                 v-for="user in users"
                 :key="user._key"

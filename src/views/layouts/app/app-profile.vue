@@ -1,19 +1,26 @@
 <template>
-    <div class="dropdown app--profile">
+    <div class="dropdown">
         <div class="profile--image">
             <img src="https://img.icons8.com/color/144/000000/user-male-circle--v1.png">
+        </div>
+
+        <div class="dropdown-list">
+            <a class="dropdown-item">Inicio</a>
+            <a class="dropdown-item">Cuenta</a>
+
+            <hr>
+
+            <a class="dropdown-item color-red" @click="logOut">Cerrar sesión</a>
         </div>
     </div>
 </template>
 
 <style lang="scss">
-.app--profile {
-    .profile--image {
-        cursor: pointer;
+.profile--image {
+    cursor: pointer;
 
-        img {
-            max-height: 2.5rem;
-        }
+    img {
+        max-height: 2.6rem;
     }
 }
 </style>

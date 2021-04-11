@@ -1,11 +1,11 @@
 <template>
-    <section v-if="show">
-        <h2>Un paso más</h2>
+    <template class="container" v-if="show">
+        <h3>Un paso más</h3>
 
         <p>Hemos enviado un mensaje de texto con un código de verificación, escribelo a continuación.</p>
 
         <form @submit.prevent="verifyCode">
-            <div class="field">
+            <div class="container">
                 <label for="code">Código de verificación</label>
                 <input
                     id="code"
@@ -23,16 +23,15 @@
                 <button
                     type="submit"
                     class="is-primary is-spread"
-                    :class="{ 'has-loader': isLoading }"
                     :disabled="isLoading">
 
                     <span>Continuar</span>
                 </button>
             </div>
         </form>
-    </section>
+    </template>
 
-    <section v-else>
+    <template v-else>
         <h2>No deberias estar aquí</h2>
 
         <p>No hay ninguna solicitud para iniciar sesión. Regresa e ingresa tu número de teléfono para llegar aquí.</p>
@@ -40,7 +39,7 @@
         <div class="wrapper">
             <router-link :to="{ name: 'send-code' }" class="button is-outline is-spread">Regresar</router-link>
         </div>
-    </section>
+    </template>
 </template>
 
 <script lang="ts">

@@ -33,7 +33,7 @@
 
     .auth--box {
         width: 100%;
-        padding: 2rem;
+        padding: 0 .5rem;
         padding-top: 4rem;
         max-width: 35rem;
         margin: 0 auto;

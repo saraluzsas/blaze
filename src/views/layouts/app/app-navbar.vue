@@ -1,11 +1,5 @@
 <template>
     <div class="navbar sticky-top">
-        <div class="navbar-brand hide-bg">
-            <a class="is-ghost" @click="show = !show">
-                <feather-icon name="menu"></feather-icon>
-            </a>
-        </div>
-
         <div class="wrapper">
             <authorized roles="auditor, developer">
                 <router-link to="/user" class="navbar-item">Usuarios</router-link>
