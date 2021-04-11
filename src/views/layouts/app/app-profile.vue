@@ -1,28 +1,33 @@
 <template>
-    <div class="app--profile box is-link flex is-spaced">
-        <div>
-            <p class="text-capcase">{{ user?.nickname }}</p>
-            <small class="text-capcase">{{ role }}</small>
+    <div class="dropdown app--profile">
+        <div class="profile--image">
+            <img src="https://img.icons8.com/color/144/000000/user-male-circle--v1.png">
         </div>
-
-        <feather-icon name="chevron-right" color="#aaa"></feather-icon>
     </div>
 </template>
 
 <style lang="scss">
 .app--profile {
-    width: 100%;
+    .profile--image {
+        cursor: pointer;
+
+        img {
+            max-height: 2.5rem;
+        }
+    }
 }
 </style>
 
 <script lang="ts">
 import { useAuthStore } from "@stores/authStore"
+import { useRouter } from "vue-router"
 import { computed, defineComponent, toRef } from "vue"
 
 export default defineComponent({
     setup() {
-        const store = useAuthStore()
-        const user = toRef(store.state, "user")
+        const { state, actions } = useAuthStore()
+
+        const user = toRef(state, "user")
 
         const role = computed(function () {
             switch (user?.value?.role) {
@@ -40,7 +45,14 @@ export default defineComponent({
             }
         })
 
-        return { user, role }
+        const { push: navigate } = useRouter()
+
+        async function logOut() {
+            await actions.signOut()
+            await navigate({ name: "sign-in" })
+        }
+
+        return { user, role, logOut }
     }
 })
 </script>

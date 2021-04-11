@@ -1,44 +1,40 @@
 <template>
-    <section>
-        <article class="consignment--details">
-            <p>Detalles</p>
-
-            <div class="container">
+    <form>
+        <article class="container">
+            <div class="xs-1 gap-md">
                 <consignment-detail
                     v-for="(detail, index) in details"
                     :key="index"
-                    :detail="detail"
-                    :canRemove="details.length > 1"
-                    @remove="() => removeDetail(index)">
+                    :data="detail"
+                    @remove="removeDetail(index)"
+                    :canRemove="details.length > 1">
                 </consignment-detail>
             </div>
 
-            <div class="flex is-spaced">
-                <a class="text-link text-xs text-uppcase" @click="addDetail">Agregar</a>
+            <div class="flex-spaced">
+                <span>$ 0</span>
+
+                <a class="color-primary text-xs" @click="addDetail">Agregar</a>
             </div>
         </article>
 
-        <article class="consignment--note">
+        <div class="container">
             <label for="note">Nota</label>
+
             <textarea
                 id="note"
                 class="input"
                 v-model="note"
-                placeholder="Escribe tu nota">
-            </textarea>
-        </article>
+                placeholder="Escribe tu nota (opcional)"></textarea>
+        </div>
 
         <div class="wrapper">
-            <button
-                class="is-primary"
-                @click="showCamera = true"
-                :disabled="disabled">
-
+            <button class="is-primary">
                 <feather-icon name="camera"></feather-icon>
                 <span>Tomar foto</span>
             </button>
         </div>
-    </section>
+    </form>
 
     <camera-modal
         v-if="showCamera"

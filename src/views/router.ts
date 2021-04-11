@@ -2,15 +2,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import { isLogged } from "vue-use-firebase"
 
 const store: RouteRecordRaw = {
-    path: "store",
-    component: () => import("./pages/store/store.vue"),
+    path: "/store",
+    component: () => import("./layouts/store/store-layout.vue"),
     children: [
-        {
-            path: "",
-            name: "store",
-            component: () => import("./pages/store/store-resume.vue")
-        },
-
         {
             path: "consignment",
             name: "store-consignment",
@@ -68,6 +62,8 @@ const routes: RouteRecordRaw[] = [
 
     user,
 
+    store,
+
     {
         path: "/",
         component: () => import("./layouts/app/app-layout.vue"),
@@ -76,9 +72,7 @@ const routes: RouteRecordRaw[] = [
                 path: "",
                 name: "home",
                 component: () => import("./pages/home/dashboard.vue")
-            },
-
-            store
+            }
         ]
     },
 

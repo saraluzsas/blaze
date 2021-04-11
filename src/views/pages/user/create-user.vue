@@ -3,7 +3,7 @@
         <h3>Crear usuario</h3>
 
         <form @submit.prevent="save">
-            <div class="field">
+            <div class="container">
                 <label for="nickname">Apodo</label>
                 <input
                     id="nickname"
@@ -15,7 +15,7 @@
                     required>
             </div>
 
-            <div class="field">
+            <div class="container">
                 <label for="phone">Teléfono</label>
                 <div class="grouper">
                     <div class="button is-static">+57</div>
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            <div class="field">
+            <div class="container">
                 <label for="role">Rol</label>
                 <select
                     class="input"
@@ -58,6 +58,8 @@
 
                     <span>Guardar</span>    
                 </button>
+
+                <router-link to="/user" class="button">Cancelar</router-link>
             </div>
         </form>
     </div>

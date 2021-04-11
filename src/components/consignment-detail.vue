@@ -1,19 +1,23 @@
 <template>
-    <div class="box wrapper">
-        <input
-            type="date"
-            v-model="detail.date"
-            class="input">
+    <div class="border radius">
+        <div class="background-light border-bottom padding flex-spaced" v-if="canRemove">
+            <p class="text-xs">Consignación <span class="color-primary">{{ data.date }}</span></p>
+            <feather-icon name="x" class="cursor-pointer" @click="remove"></feather-icon>
+        </div>
 
-        <input
-            type="text"
-            v-model="detail.amount"
-            class="input is-spread"
-            placeholder="$ 0">
+        <div class="xs-1 md-2 gap-sm padding">
+            <input
+                type="date"
+                v-model="data.date"
+                placeholder="Fecha"
+                class="input is-spread">
 
-        <button class="is-outline" v-if="canRemove" @click="remove">
-            <feather-icon name="trash-2"></feather-icon>
-        </button>
+            <input
+                type="text"
+                v-model="data.amount"
+                class="input is-spread"
+                placeholder="$ 0">
+        </div>
     </div>
 </template>
 
@@ -22,7 +26,7 @@ import { defineComponent } from "vue"
 
 export default defineComponent({
     props: {
-        detail: {
+        data: {
             type: Object,
             required: true
         },

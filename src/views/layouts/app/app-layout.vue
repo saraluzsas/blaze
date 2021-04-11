@@ -1,21 +1,24 @@
 <template>
-    <main class="dashboard">
-        <app-sidebar></app-sidebar>
-
-        <div class="container">
-            <router-view></router-view>
-        </div>
+    <main>
+        <app-navbar @toggle="showNavbar = true"></app-navbar>
+        <router-view></router-view>
     </main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, ref } from "vue"
 
-import AppSidebar from "./app-sidebar.vue"
+import AppNavbar from "./app-navbar.vue"
 
 export default defineComponent({
     components: {
-        AppSidebar
+        AppNavbar,
+    },
+
+    setup() {
+        const showNavbar = ref(false)
+
+        return { showNavbar }
     }
 })
 </script>
