@@ -96,7 +96,7 @@ export default defineComponent({
                 const res = await axios.post("/user", { nickname, phone: "+57" + phone, role })
                 
                 if (res.data.error) {
-
+                    console.warn("TODO")
                 }
 
                 else {

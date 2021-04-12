@@ -62,8 +62,6 @@ const routes: RouteRecordRaw[] = [
 
     user,
 
-    store,
-
     {
         path: "/",
         component: () => import("./layouts/app/app-layout.vue"),
@@ -72,7 +70,9 @@ const routes: RouteRecordRaw[] = [
                 path: "",
                 name: "home",
                 component: () => import("./pages/home/dashboard.vue")
-            }
+            },
+
+            store,
         ]
     },
 

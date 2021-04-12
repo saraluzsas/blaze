@@ -42,11 +42,7 @@ export default defineComponent({
             try {
                 const res = await axios.get("/user")
 
-                if (res.data.error) {
-                    console.warn(res.data)
-                }
-
-                else {
+                if (Array.isArray(res.data)) {
                     users.value = res.data
                 }
             }

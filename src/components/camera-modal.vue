@@ -1,17 +1,17 @@
 <template>
-    <div class="camera--modal modal is-open">
-        <div class="modal-body">
-            <div class="camera--video container">
+    <div class="fixed-backdrop flex-centered padding-md">
+        <div class="camera--modal modal-md justify-center">
+            <div class="camera--video flex-centered">
                 <video class="radius-md" ref="videoRef" v-show="stream" autoplay></video>
 
-                <div class="loader" v-if="isLoading"></div>
+                <div class="loader-md" v-if="isLoading"></div>
 
                 <div class="container" v-if="!available">
                     <p>El acceso a la camara no esta disponible.</p>
                 </div>
             </div>
 
-            <div class="wrapper">
+            <div class="wrapper justify-center">
                 <button
                     class="is-primary"
                     @click="takePicture"
@@ -29,13 +29,14 @@
 <style lang="scss">
 .camera--modal {
     .camera--video {
-        min-height: 60%;
-        max-height: 60%;
+        min-height: 15rem;
+        max-height: 70%;
         justify-content: center;
         align-items: center;
+        text-align: center;
 
         video {
-            max-width: 90%;
+            max-width: 95%;
             max-height: 100%;
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <div class="xs-1 gap-md">
         <article class="container">
             <div class="xs-1 gap-md">
                 <consignment-detail
@@ -12,9 +12,8 @@
             </div>
 
             <div class="flex-spaced">
-                <span>$ 0</span>
-
-                <a class="color-primary text-xs" @click="addDetail">Agregar</a>
+                <span></span>
+                <a class="color-primary cursor-pointer text-xs" @click="addDetail">Agregar</a>
             </div>
         </article>
 
@@ -29,25 +28,28 @@
         </div>
 
         <div class="wrapper">
-            <button class="is-primary">
+            <button class="is-primary" @click="showCamera = true" :disabled="disabled">
                 <feather-icon name="camera"></feather-icon>
                 <span>Tomar foto</span>
             </button>
         </div>
-    </form>
+    </div>
 
     <camera-modal
         v-if="showCamera"
         @close="closeCamera"
-        @taken="photoTaken">
+        @taken="save">
     </camera-modal>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue"
+import { useRouter } from "vue-router"
 
 import CameraModal from "@components/camera-modal.vue"
 import ConsignmentDetail from "@components/consignment-detail.vue"
+
+import axios from "axios"
 
 export default defineComponent({
     components: {
@@ -57,13 +59,14 @@ export default defineComponent({
 
     setup() {
         const state = reactive({
-            photo: "",
             note: "",
 
             details: [{ amount: "", date: "" }],
 
             showCamera: false,
         })
+
+        const { push: navigate } = useRouter()
 
         const disabled = computed(function () {
             return state.details.some(detail => detail.amount === "" || detail.date === "")
@@ -74,9 +77,25 @@ export default defineComponent({
 
         const closeCamera = () => state.showCamera = false
 
-        const photoTaken = (data: string) => {
-            state.photo = data
+        async function save(photo: string) {
             state.showCamera = false
+
+            try {
+                const consignment = {
+                    note: state.note,
+                    details: state.details,
+                    photo: photo,
+                    draft: true,
+                    total: 0,
+                }
+
+                await axios.post("/consignment", consignment)
+                await navigate("/")
+            }
+
+            catch (err) {
+                console.error(err)
+            }
         }
 
         return {
@@ -87,7 +106,7 @@ export default defineComponent({
             removeDetail,
 
             closeCamera,
-            photoTaken,
+            save,
         }
     }
 })

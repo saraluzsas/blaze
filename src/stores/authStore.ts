@@ -20,7 +20,6 @@ export const useAuthStore = createStore({
     
                 catch (err) {
                     console.error(err)
-                    alert("Error: " + err.message)
                 }
             }
         },

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-column justify-end gap-md background-light padding-md border-bottom height-xl">
+    <div class="flex-column justify-end gap-md background-light padding-md border-bottom">
         <h3>Tienda</h3>
 
         <div class="tab">
