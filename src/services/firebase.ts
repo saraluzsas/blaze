@@ -2,11 +2,11 @@ import firebase from "firebase/app"
 import "firebase/auth"
 
 firebase.initializeApp({
-    apiKey: "AIzaSyDW0h2CL1j2Bx2aMP12xfEH2iHj_7NBjJo",
-    authDomain: "nautilus-dev-60876.firebaseapp.com",
-    projectId: "nautilus-dev-60876",
-    storageBucket: "nautilus-dev-60876.appspot.com",
-    messagingSenderId: "886946351458",
-    appId: "1:886946351458:web:f19ad3b80bcd7fd607043b",
-    measurementId: "G-N8Z82ZQLT8"
+    apiKey: "AIzaSyBwSfPp87v9erNDL0e5ebqmFOI7pq6Gkxc",
+    authDomain: "nautilus-pro.firebaseapp.com",
+    projectId: "nautilus-pro",
+    storageBucket: "nautilus-pro.appspot.com",
+    messagingSenderId: "42485849054",
+    appId: "1:42485849054:web:2c51bf4b998be88ea79b4f",
+    measurementId: "G-9K4XMG20E6"
 })
