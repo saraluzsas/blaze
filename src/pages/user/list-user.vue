@@ -1,12 +1,6 @@
 <template>
     <div class="content">
         <div class="wrapper">
-            <input
-                type="text"
-                class="input is-spread"
-                placeholder="Buscar"
-                required>
-
             <div class="wrapper">
                 <router-link :to="{ name: 'user-new' }" class="button is-primary">
                     <span>Crear nuevo</span>
@@ -25,28 +19,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref } from "vue"
+import { defineComponent, ref } from "vue"
+import { listUser } from "@useCases/user"
+import { useRoute } from "vue-router"
 
-import axios from "axios"
+import UserItem from "@components/user-item.vue"
 
 export default defineComponent({
+    components: {
+        UserItem,
+    },
+
+    async beforeRouteEnter(to, from, next) {
+        try {
+            const users = await listUser()
+
+            to.meta.list = users
+            next()
+        }
+
+        catch (err) {
+            console.error(err)
+        }
+    },
+
     setup() {
-        const users = ref([])
+        const { meta } = useRoute()
 
-        onBeforeMount(async function () {
-            try {
-                const res = await axios.get("/user")
-
-                if (Array.isArray(res.data)) {
-                    users.value = res.data
-                }
-            }
-
-            catch (err) {
-                console.error(err)
-                users.value = []
-            }
-        })
+        const users = ref(meta.list || [])
 
         return { users }
     }

@@ -49,11 +49,6 @@ import { useRouter } from "vue-router"
 import axios from "axios"
 
 export default defineComponent({
-    components: {
-        CameraModal,
-        ConsignmentDetail
-    },
-
     setup() {
         const state = reactive({
             note: "",

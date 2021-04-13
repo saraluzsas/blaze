@@ -10,12 +10,26 @@
                 </div>
             </div>
 
-            <button class="is-red">
+            <button class="is-red" @click="showRemoveConfirmation = true">
                 <span>Eliminar</span>
             </button>
         </div>
 
-        <form>
+        <div class="fixed-backdrop flex-centered padding-md" v-if="showRemoveConfirmation">
+            <div class="modal-sm">
+                <div class="container padding-md">
+                    <p class="color-red">Eliminar usuario</p>
+                    <p>Estas a punto de eliminar este usuario, por lo que no podrá volver a acceder al sistema. Escribe el número del usuario para confirmar.</p>
+                </div>
+
+                <div class="wrapper padding-sm background-light border-top">
+                    <button class="is-red" @click="remove">Si, eliminar</button>
+                    <button @click="showRemoveConfirmation = false">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <form @submit.prevent="save">
             <div class="container">
                 <label for="nickname">Apodo</label>
                 <input
@@ -23,7 +37,7 @@
                     type="text"
                     class="input is-spread"
                     placeholder="Apodo"
-                    v-model="nickname"
+                    v-model="user.nickname"
                     autocomplete="off"
                     required>
             </div>
@@ -42,7 +56,7 @@
                         maxlength="10"
                         minlength="10"
                         autocomplete="off"
-                        v-model="phone"
+                        v-model="user.phone"
                         required>
                 </div>
             </div>
@@ -52,7 +66,7 @@
                 <select
                     class="input"
                     id="role"
-                    v-model="role"
+                    v-model="user.role"
                     required>
 
                     <option value="" disabled>Seleciona un rol</option>
@@ -80,19 +94,74 @@ img {
 </style>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from "vue"
+import { defineComponent, reactive, ref } from "vue"
+import { findUserById, editUser, removeUser } from "@useCases/user"
+import { useRoute, useRouter } from "vue-router"
 
 export default defineComponent({
-    setup() {
-        const state = reactive({
-            nickname: "",
-            phone: "",
-            role: "",
+    async beforeRouteEnter(to, from, next) {
+        const id = to.params.id.toString()
 
-            loading: false,
+        try {
+            const user = await findUserById(id)
+
+            if (user) {
+                to.meta = { ...to.meta, ...user }
+                next()
+            }
+
+            else next("/user")
+        }
+
+        catch (err) {
+            console.error(err)
+            next("/user")
+        }
+    },
+
+    setup() {
+        const { meta, params } = useRoute()
+        const { push: navigate } = useRouter()
+
+        const phone = (meta.phone as string)?.split("+57")[1]
+
+        const user = reactive({
+            phone: phone,
+            nickname: meta.nickname,
+            role: meta.role,
         })
 
-        return { ...toRefs(state) }
+        async function save() {
+            try {
+                const id = params.id.toString()
+
+                await editUser(id, { ...user, phone: "+57" + user.phone })
+                await navigate("/user")
+            }
+
+            catch (err) {
+                console.error(err)
+            }
+        }
+
+        // remove
+
+        const showRemoveConfirmation = ref(false)
+
+        async function remove() {
+            try {
+                const id = params.id.toString()
+
+                await removeUser(id)
+                await navigate("/user")
+            }
+
+            catch (err) {
+                console.error(err)
+            }
+        }
+
+        return { user, save, remove, showRemoveConfirmation }
     }
 })
 </script>

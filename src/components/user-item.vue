@@ -1,9 +1,12 @@
 <template>
-    <router-link :to="{ name: 'user-edit', params: { id: data._key } }" class="border radius padding-sm flex-spaced align-center cursor-pointer">
-        <div class="wrapper gap-sm align-center">
-            <img src="https://img.icons8.com/color/96/000000/circled-user-male-skin-type-1-2--v1.png">
+    <router-link
+        :to="{ name: 'user-edit', params: { id: data._key } }"
+        class="border radius padding-sm flex-spaced align-center cursor-pointer">
 
-            <div class="container">
+        <div class="wrapper gap-sm align-center">
+            <img src="https://img.icons8.com/color/96/000000/circled-user-male-skin-type-1-2--v1.png" loading="lazy">
+
+            <div>
                 <p class="text-capcase">{{ data.nickname }}</p>
                 <small>{{ data.phone }}</small>
             </div>
@@ -17,14 +20,10 @@
 img {
     height: 3rem;
 }
-
-.container {
-    gap: 0.2rem;
-}
 </style>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue"
+import { defineComponent } from "vue"
 
 export default defineComponent({
     props: {
@@ -32,26 +31,6 @@ export default defineComponent({
             type: Object,
             required: true
         }
-    },
-    
-    setup(props) {
-        const role = computed(function () {
-            switch (props.data.role) {
-                case "developer":
-                    return "desarrollador"
-                
-                case "store":
-                    return "tienda"
-
-                case "auditor":
-                    return "auditor"
-
-                default:
-                    return "otro"
-            }
-        })
-
-        return { role }
     }
 })
 </script>

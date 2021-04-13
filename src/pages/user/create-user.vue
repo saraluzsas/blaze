@@ -56,7 +56,7 @@
                     :disabled="disabled || loading"
                     :class="{ 'has-loader': loading }">
 
-                    <span>Crear</span>    
+                    <span>Registrar</span>    
                 </button>
 
                 <router-link to="/user" class="button">Cancelar</router-link>

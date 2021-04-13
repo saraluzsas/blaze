@@ -6,6 +6,12 @@ const routes: RouteRecordRaw[] = [
         path: "/",
         component: () => import("./layouts/app/app-layout.vue"),
         children: [
+            {
+                path: "",
+                name: "home",
+                component: () => import("./pages/dashboard.vue")
+            },
+
             // STORE
 
             {
@@ -17,6 +23,28 @@ const routes: RouteRecordRaw[] = [
                         component: () => import("./pages/consignment/create-consignment.vue")
                     }
                 ]
+            }
+        ]
+    },
+
+    // AUTH
+
+    {
+        path: "/sign",
+        component: () => import("./layouts/auth/auth-layout.vue"),
+        meta: { anonymous: true },
+        children: [
+            {
+                path: "",
+                name: "sign-in",
+                alias: ["send", "in"],
+                component: () => import("./pages/auth/send-code.vue")
+            },
+
+            {
+                path: "/verify",
+                name: "verify-code",
+                component: () => import("./pages/auth/verify-code.vue")
             }
         ]
     },
@@ -80,7 +108,7 @@ export const router = createRouter({
 router.beforeEach(async function (to, from, next) {
     const isAuthed = await isLogged()
 
-    if (to.meta.anonymous || isAuthed) next()
+    if (to.meta.anonymous || to.name === "sign-in" || isAuthed) next()
 
     else {
         next({ name: "sign-in" })

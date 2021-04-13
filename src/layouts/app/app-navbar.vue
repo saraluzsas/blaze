@@ -1,17 +1,13 @@
 <template>
     <div class="navbar sticky-top">
         <div class="wrapper">
-            <authorized-view roles="auditor, developer">
+            <authorized-view roles="admin">
                 <router-link to="/user" class="navbar-item">Usuarios</router-link>
                 <router-link to="/consignment" class="navbar-item">Consignaciones</router-link>
             </authorized-view>
 
-            <authorized-view roles="auditor">
-                <a class="navbar-item">Cruces</a>
-            </authorized-view>
-
             <authorized-view roles="store">
-                <router-link to="/store" class="navbar-item">Tienda</router-link>
+                <router-link to="/store/consignment" class="navbar-item">Consignaciones</router-link>
             </authorized-view>
         </div>
 
