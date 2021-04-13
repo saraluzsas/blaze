@@ -37,7 +37,7 @@
 
     <camera-modal
         v-if="showCamera"
-        @close="closeCamera"
+        @close="showCamera = false"
         @taken="save">
     </camera-modal>
 </template>
@@ -60,22 +60,28 @@ export default defineComponent({
     setup() {
         const state = reactive({
             note: "",
-
             details: [{ amount: "", date: "" }],
 
             showCamera: false,
         })
 
-        const { push: navigate } = useRouter()
-
         const disabled = computed(function () {
             return state.details.some(detail => detail.amount === "" || detail.date === "")
         })
 
-        const addDetail = () => state.details.push({ amount: "", date: "" })
-        const removeDetail = (index: number) => state.details = state.details.filter((curr, key) => key !== index)
+        // details
 
-        const closeCamera = () => state.showCamera = false
+        function addDetail() {
+            state.details.push({ amount: "", date: "" })
+        }
+
+        function removeDetail(index: number) {
+            state.details.splice(index, 1)
+        }
+
+        // save
+
+        const { push: navigate } = useRouter()
 
         async function save(photo: string) {
             state.showCamera = false
@@ -90,7 +96,7 @@ export default defineComponent({
                 }
 
                 await axios.post("/consignment", consignment)
-                await navigate("/")
+                await navigate("/consignment")
             }
 
             catch (err) {
@@ -99,13 +105,12 @@ export default defineComponent({
         }
 
         return {
-            disabled,
             ...toRefs(state),
+            disabled,
 
             addDetail,
             removeDetail,
 
-            closeCamera,
             save,
         }
     }

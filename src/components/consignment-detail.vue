@@ -12,17 +12,17 @@
                 placeholder="Fecha"
                 class="input is-spread">
 
-            <input
-                type="text"
-                v-model="data.amount"
-                class="input is-spread"
-                placeholder="$ 0">
+            <currency-input
+                v-model="data.amount">
+            </currency-input>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
+
+import CurrencyInput from "@components/currency-input.vue"
 
 export default defineComponent({
     props: {
@@ -35,6 +35,10 @@ export default defineComponent({
             type: Boolean,
             default: true
         }
+    },
+
+    components: {
+        CurrencyInput,
     },
 
     setup(props, { emit }) {

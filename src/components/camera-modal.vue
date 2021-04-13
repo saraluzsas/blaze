@@ -1,6 +1,6 @@
 <template>
     <div class="fixed-backdrop flex-centered padding-md">
-        <div class="camera--modal modal-md justify-center">
+        <div class="camera--modal modal-md padding-sm gap-md justify-center">
             <div class="camera--video flex-centered">
                 <video class="radius-md" ref="videoRef" v-show="stream" autoplay></video>
 
@@ -13,7 +13,7 @@
 
             <div class="wrapper justify-center">
                 <button
-                    class="is-primary"
+                    class="is-green"
                     @click="takePicture"
                     :disabled="isLoading || !available">
 
@@ -29,8 +29,7 @@
 <style lang="scss">
 .camera--modal {
     .camera--video {
-        min-height: 15rem;
-        max-height: 70%;
+        height: clamp(10rem, 60%, 20rem);
         justify-content: center;
         align-items: center;
         text-align: center;
