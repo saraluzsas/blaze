@@ -22,8 +22,6 @@
 <script lang="ts">
 import { defineComponent } from "vue"
 
-import CurrencyInput from "@components/currency-input.vue"
-
 export default defineComponent({
     props: {
         data: {
@@ -35,10 +33,6 @@ export default defineComponent({
             type: Boolean,
             default: true
         }
-    },
-
-    components: {
-        CurrencyInput,
     },
 
     setup(props, { emit }) {

@@ -46,9 +46,6 @@
 import { computed, defineComponent, reactive, toRefs } from "vue"
 import { useRouter } from "vue-router"
 
-import CameraModal from "@components/camera-modal.vue"
-import ConsignmentDetail from "@components/consignment-detail.vue"
-
 import axios from "axios"
 
 export default defineComponent({

@@ -2,13 +2,12 @@ import { defineConfig } from "vite"
 import { resolve } from "path"
 
 import vue from "@vitejs/plugin-vue"
-import jsx from "@vitejs/plugin-vue-jsx"
+import components from "vite-plugin-components"
 
 export default defineConfig({
     resolve: {
         alias: {
             "@stores": resolve(__dirname, "./src/stores"),
-            "@components": resolve(__dirname, "./src/components"),
             "@services": resolve(__dirname, "./src/services"),
         }
     },
@@ -22,6 +21,9 @@ export default defineConfig({
             }
         }),
 
-        jsx()
+        components({
+            extensions: ["vue"],
+            dirs: ["src/components"]
+        })
     ],
 })

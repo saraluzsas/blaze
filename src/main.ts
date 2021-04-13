@@ -8,7 +8,7 @@ import "./services/axios"
 // vue
 
 import { createApp } from "vue"
-import { router } from "./views/router"
+import { router } from "./router"
 
 import App from "./app.vue"
 

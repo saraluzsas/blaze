@@ -27,14 +27,9 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, ref } from "vue"
 
-import UserItem from "@components/user-item.vue"
 import axios from "axios"
 
 export default defineComponent({
-    components: {
-        UserItem,
-    },
-
     setup() {
         const users = ref([])
 

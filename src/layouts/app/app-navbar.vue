@@ -1,17 +1,18 @@
 <template>
     <div class="navbar sticky-top">
         <div class="wrapper">
-            <authorized roles="auditor, developer">
+            <authorized-view roles="auditor, developer">
                 <router-link to="/user" class="navbar-item">Usuarios</router-link>
-            </authorized>
+                <router-link to="/consignment" class="navbar-item">Consignaciones</router-link>
+            </authorized-view>
 
-            <authorized roles="auditor">
+            <authorized-view roles="auditor">
                 <a class="navbar-item">Cruces</a>
-            </authorized>
+            </authorized-view>
 
-            <authorized roles="store">
+            <authorized-view roles="store">
                 <router-link to="/store" class="navbar-item">Tienda</router-link>
-            </authorized>
+            </authorized-view>
         </div>
 
         <app-profile></app-profile>
@@ -22,12 +23,10 @@
 import { defineComponent, ref } from "vue"
 
 import AppProfile from "./app-profile.vue"
-import Authorized from "@components/authorized-view.vue"
 
 export default defineComponent({
     components: {
         AppProfile,
-        Authorized,
     },
 
     setup() {
