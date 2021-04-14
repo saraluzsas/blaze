@@ -18,10 +18,9 @@ export async function createConsignment(photo: string, details: Detail[], note: 
     await axios.post("/consignment", consignment)
 }
 
-export async function listConsignment(from: string = "", to: string = "") {
+export async function listConsignment(constraints: any = undefined) {
     try {
-        const query = { from, to }
-        const res = await axios.get("/consignment", { data: query })
+        const res = await axios.get("/consignment", { params: constraints })
 
         if (res.data.error) {
             console.error(res.data.message)

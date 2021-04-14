@@ -119,6 +119,6 @@ router.beforeEach(async function (to, from, next) {
     }
 
     else {
-        next({ name: "sign-in" })
+        next("/sign")
     }
 })

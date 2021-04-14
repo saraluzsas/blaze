@@ -1,16 +1,40 @@
 <template>
-    <div class="content">
-        <div class="flex-spaced">
-            <button>
-                <span>Filtros</span>
-                <feather-icon name="filter"></feather-icon>
-            </button>
-
-            <button disabled>
-                <span>Exportar</span>
-            </button>
+    <div class="padding-md border-bottom background-light flex-spaced">
+        <div class="wrapper">
+            <button class="is-primary">Exportar</button>
         </div>
 
+        <div class="wrapper">
+            <!-- filters -->
+
+            <div class="dropdown">
+                <button>
+                    <span>Fecha</span>
+                    <feather-icon name="calendar"></feather-icon>
+                </button>
+
+                <div class="dropdown-list container padding-xs">
+                    <small>Desde - Hasta</small>
+
+                    <div class="organizer">
+                        <input
+                            type="date"
+                            class="input is-spread"
+                            v-model="filters.from"
+                            placeholder="Hello">
+
+                        <input
+                            type="date"
+                            class="input is-spread"
+                            v-model="filters.to"
+                            placeholder="Hello">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
         <section class="xs-1 gap-md">
             <article
                 class="container"
@@ -28,13 +52,23 @@
                 </div>
             </article>
         </section>
-    </div>
 
-    <consignment-filter v-show="showFilters" :filters="filters"></consignment-filter>
+        <div class="flex-centered">
+            <div class="grouper">
+                <button @click="--filters.page" :disabled="filters.page === 0">
+                    <feather-icon name="chevron-left"></feather-icon>
+                </button>
+
+                <button @click="++filters.page">
+                    <feather-icon name="chevron-right"></feather-icon>
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, reactive, ref } from "vue"
+import { defineComponent, reactive, ref, toRaw, watch } from "vue"
 import { listConsignment } from "@useCases/consignment"
 import { toTimeAgo } from "@services/formatter"
 import { useRoute } from "vue-router"
@@ -54,25 +88,35 @@ export default defineComponent({
     },
 
     setup() {
-        const filters = reactive({
-            from: "",
-            to: "",
-            groupBy: "date",
-        })
-
-        const showFilters = ref(false)
-
         // data
 
         const { meta } = useRoute()
 
         const list = ref(meta.list)
 
+        // filters
+
+        const filters = reactive({
+            from: "",
+            to: "",
+            page: 0,
+        })
+
+        watch([filters], async function () {
+            try {
+                list.value = []
+                list.value = await listConsignment(toRaw(filters))
+            }
+
+            catch (err) {
+                console.error(err)
+            }
+        })
+
         return {
             filters,
-            showFilters,
-            toTimeAgo,
 
+            toTimeAgo,
             list
         }
     }

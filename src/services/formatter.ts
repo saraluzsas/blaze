@@ -16,7 +16,7 @@ export function toTimeAgo(date: string) {
 
     const days = Math.floor(elapsed / 86_400)
 
-    if (days >= 8) return date
+    if (days >= 5) return date
 
     switch (days) {
         case 0:
