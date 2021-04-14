@@ -1,3 +1,4 @@
+import { useAuthStore } from "@stores/authStore"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import { isLogged } from "vue-use-firebase"
 
@@ -11,19 +12,6 @@ const routes: RouteRecordRaw[] = [
                 name: "home",
                 component: () => import("./pages/dashboard.vue")
             },
-
-            // STORE
-
-            {
-                path: "store",
-                component: () => import("./layouts/store/store-layout.vue"),
-                children: [
-                    {
-                        path: "consignment",
-                        component: () => import("./pages/consignment/create-consignment.vue")
-                    }
-                ]
-            }
         ]
     },
 
@@ -54,6 +42,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: "/user",
         component: () => import("./layouts/app/app-layout.vue"),
+        meta: { role: "admin" },
         children: [
             {
                 path: "",
@@ -79,6 +68,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: "/consignment",
         component: () => import("./layouts/app/app-layout.vue"),
+        meta: { role: "admin" },
         children: [
             {
                 path: "",
@@ -88,6 +78,12 @@ const routes: RouteRecordRaw[] = [
             {
                 path: "",
                 component: () => import("./pages/consignment/create-consignment.vue")
+            },
+
+            {
+                path: "new",
+                meta: { role: "store" },
+                component: () => import("./pages/consignment/create-consignment.vue")
             }
         ]
     },
@@ -95,7 +91,8 @@ const routes: RouteRecordRaw[] = [
     // NOT FOUND
 
     {
-        path: "/:paramsAll(.*)",
+        path: "/:all(.*)",
+        name: "not-found",
         component: () => import("./pages/not-found.vue")
     },
 ]
@@ -108,7 +105,18 @@ export const router = createRouter({
 router.beforeEach(async function (to, from, next) {
     const isAuthed = await isLogged()
 
-    if (to.meta.anonymous || to.name === "sign-in" || isAuthed) next()
+    if (to.meta.anonymous || to.name === "sign-in" || isAuthed) {
+        if (to.meta.role) {
+            const { state, actions } = useAuthStore()
+
+            if (!state.user) await actions.fetchUser()
+
+            if (state.user.role === to.meta.role) next()
+            else next("/401")
+        }
+
+        else next()
+    }
 
     else {
         next({ name: "sign-in" })

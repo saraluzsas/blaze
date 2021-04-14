@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <div class="wrapper">
+        <div class="flex justify-end">
             <div class="wrapper">
                 <router-link :to="{ name: 'user-new' }" class="button is-primary">
                     <span>Crear nuevo</span>
@@ -23,13 +23,7 @@ import { defineComponent, ref } from "vue"
 import { listUser } from "@useCases/user"
 import { useRoute } from "vue-router"
 
-import UserItem from "@components/user-item.vue"
-
 export default defineComponent({
-    components: {
-        UserItem,
-    },
-
     async beforeRouteEnter(to, from, next) {
         try {
             const users = await listUser()

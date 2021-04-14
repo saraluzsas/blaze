@@ -43,8 +43,7 @@
                     required>
 
                     <option value="" disabled>Seleciona un rol</option>
-                    <option value="developer">Desarrollador</option>
-                    <option value="auditor">Auditor</option>
+                    <option value="admin">Administrador</option>
                     <option value="store">Tienda</option>
                 </select>
             </div>
@@ -100,7 +99,7 @@ export default defineComponent({
                 }
 
                 else {
-                    await navigate({ name: "user-list" })
+                    await navigate("/")
                 }
             }
             

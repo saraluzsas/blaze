@@ -5,7 +5,7 @@
         </div>
 
         <div class="dropdown-list">
-            <a class="dropdown-item">Inicio</a>
+            <router-link to="/" class="dropdown-item">Inicio</router-link>
             <a class="dropdown-item">Cuenta</a>
 
             <hr>
@@ -36,22 +36,6 @@ export default defineComponent({
 
         const user = toRef(state, "user")
 
-        const role = computed(function () {
-            switch (user?.value?.role) {
-                case "developer":
-                    return "desarrollador"
-
-                case "auditor":
-                    return "auditor"
-
-                case "store":
-                    return "tienda"
-
-                default:
-                    return "anonimo"
-            }
-        })
-
         const { push: navigate } = useRouter()
 
         async function logOut() {
@@ -59,7 +43,7 @@ export default defineComponent({
             await navigate({ name: "sign-in" })
         }
 
-        return { user, role, logOut }
+        return { user, logOut }
     }
 })
 </script>

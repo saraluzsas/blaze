@@ -1,5 +1,5 @@
 <template>
-    <div class="xs-1 gap-md">
+    <div class="content xs-1 gap-md">
         <article class="container">
             <div class="xs-1 gap-md">
                 <consignment-detail
@@ -44,9 +44,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue"
+import { createConsignment } from "@useCases/consignment"
 import { useRouter } from "vue-router"
-
-import axios from "axios"
 
 export default defineComponent({
     setup() {
@@ -79,16 +78,8 @@ export default defineComponent({
             state.showCamera = false
 
             try {
-                const consignment = {
-                    note: state.note,
-                    details: state.details,
-                    photo: photo,
-                    draft: true,
-                    total: 0,
-                }
-
-                await axios.post("/consignment", consignment)
-                await navigate("/consignment")
+                await createConsignment(photo, state.details, state.note)
+                await navigate("/")
             }
 
             catch (err) {

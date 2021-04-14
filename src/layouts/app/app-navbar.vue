@@ -7,7 +7,7 @@
             </authorized-view>
 
             <authorized-view roles="store">
-                <router-link to="/store/consignment" class="navbar-item">Consignaciones</router-link>
+                <router-link to="/consignment/new" class="navbar-item">Consignaciones</router-link>
             </authorized-view>
         </div>
 
