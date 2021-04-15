@@ -1,36 +1,27 @@
 <template>
-    <div class="padding-md border-bottom background-light flex-spaced">
+    <div class="padding-md border-bottom background-light gap-md xs-1 md-2">
         <div class="wrapper">
-            <button class="is-primary">Exportar</button>
+            <div class="wrapper">
+                <input
+                    type="date"
+                    class="input"
+                    v-model="from">
+
+                <input
+                    type="date"
+                    class="input"
+                    v-model="to">
+            </div>
         </div>
 
-        <div class="wrapper">
-            <!-- filters -->
+        <div class="wrapper align-start">
+            <input
+                type="text"
+                class="input is-spread"
+                placeholder="Buscar (autor, nota ...)"
+                v-model="search">
 
-            <div class="dropdown">
-                <button>
-                    <span>Fecha</span>
-                    <feather-icon name="calendar"></feather-icon>
-                </button>
-
-                <div class="dropdown-list container padding-xs">
-                    <small>Desde - Hasta</small>
-
-                    <div class="organizer">
-                        <input
-                            type="date"
-                            class="input is-spread"
-                            v-model="filters.from"
-                            placeholder="Hello">
-
-                        <input
-                            type="date"
-                            class="input is-spread"
-                            v-model="filters.to"
-                            placeholder="Hello">
-                    </div>
-                </div>
-            </div>
+            <button class="is-primary" @click="exportData">Exportar</button>
         </div>
     </div>
 
@@ -38,86 +29,100 @@
         <section class="xs-1 gap-md">
             <article
                 class="container"
-                v-for="(group, index) in list"
+                v-for="(section, index) in sections"
                 :key="index">
 
-                <p class="text-firstcase">{{ toTimeAgo(group.date) }}</p>
+                <p class="text-firstcase">{{ toTimeAgo(section.title) }}</p>
 
                 <div class="organizer shadow-xs">
                     <consignment-item
-                        v-for="consignment in group.content"
+                        v-for="consignment in section.content"
                         :key="consignment._key"
                         :data="consignment">
                     </consignment-item>
                 </div>
             </article>
         </section>
+    </div>
 
-        <div class="flex-centered">
-            <div class="grouper">
-                <button @click="--filters.page" :disabled="filters.page === 0">
-                    <feather-icon name="chevron-left"></feather-icon>
-                </button>
-
-                <button @click="++filters.page">
-                    <feather-icon name="chevron-right"></feather-icon>
-                </button>
-            </div>
+    <div class="flex-centered">
+        <div class="grouper">
+            <!-- TODO -->
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRaw, watch } from "vue"
-import { listConsignment } from "@useCases/consignment"
+import { defineComponent, onBeforeMount, reactive, toRaw, toRefs, watch } from "vue"
+import { exportConsignment, listConsignment } from "@useCases/consignment"
 import { toTimeAgo } from "@services/formatter"
-import { useRoute } from "vue-router"
 
 export default defineComponent({
-    async beforeRouteEnter(to, from, next) {
-        try {
-            const consignments = await listConsignment()
-
-            to.meta.list = consignments
-            next()
-        }
-
-        catch (err) {
-            console.error(err)
-        }
-    },
-
     setup() {
-        // data
+        const state = reactive({
+            sections: [],
 
-        const { meta } = useRoute()
-
-        const list = ref(meta.list)
-
-        // filters
-
-        const filters = reactive({
             from: "",
             to: "",
+            search: "",
+
             page: 0,
+            limit: 0,
         })
 
-        watch([filters], async function () {
+        // data
+
+        async function obtainData() {
             try {
-                list.value = []
-                list.value = await listConsignment(toRaw(filters))
+                const data = await listConsignment(toRaw(state))
+
+                console.log("hello")
+
+                state.limit = data.pages
+                state.sections = data.sections
             }
 
             catch (err) {
                 console.error(err)
             }
-        })
+        }
+
+        onBeforeMount(obtainData)
+
+        // observe
+
+        const observable = [
+            () => state.from,
+            () => state.to,
+            () => state.page,
+            () => state.search
+        ]
+
+        watch(observable, obtainData)
+
+        // export
+
+        async function exportData() {
+            try {
+                const csv = await exportConsignment(toRaw(state))
+                const link = document.createElement("a")
+
+                link.download = "consignment.csv"
+                link.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`
+
+                link.click()
+            }
+
+            catch (err) {
+                console.error(err)
+            }
+        }
 
         return {
-            filters,
+            ...toRefs(state),
 
+            exportData,
             toTimeAgo,
-            list
         }
     }
 })

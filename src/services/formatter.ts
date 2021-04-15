@@ -11,21 +11,28 @@ export function toCurrency(value: number) {
 export function toTimeAgo(date: string) {
     const formatter = new Intl.RelativeTimeFormat("es", { style: "long" })
 
-    const timestamp = Date.parse(date)
-    const elapsed = (Date.now() - timestamp) / 1_000
+    try {
+        const timestamp = Date.parse(date)
+        const elapsed = (Date.now() - timestamp) / 1_000
 
-    const days = Math.floor(elapsed / 86_400)
+        const days = Math.floor(elapsed / 86_400)
 
-    if (days >= 5) return date
+        if (days >= 5) return date
 
-    switch (days) {
-        case 0:
-            return "hoy"
+        switch (days) {
+            case 0:
+                return "hoy"
 
-        case 1:
-            return "ayer"
+            case 1:
+                return "ayer"
 
-        default:
-            return formatter.format(-days, "days")
+            default:
+                return formatter.format(-days, "days")
+        }
+    }
+
+    catch (err) {
+        console.error(err)
+        return date
     }
 }

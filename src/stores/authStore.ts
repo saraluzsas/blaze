@@ -14,7 +14,7 @@ export const useAuthStore = createStore({
         async fetchUser(state) {
             if (state.user === undefined) {
                 try {
-                    const { data } = await axios.get("/auth/me")
+                    const { data } = await axios.get("/auth")
                     state.user = data
                 }
     

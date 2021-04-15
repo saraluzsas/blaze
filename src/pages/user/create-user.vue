@@ -67,8 +67,8 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue"
 
-import axios from "axios"
 import { useRouter } from "vue-router"
+import { createUser } from "@useCases/user"
 
 export default defineComponent({
     setup() {
@@ -92,19 +92,12 @@ export default defineComponent({
             try {
                 const { nickname, phone, role } = state
 
-                const res = await axios.post("/user", { nickname, phone: "+57" + phone, role })
-                
-                if (res.data.error) {
-                    console.warn("TODO")
-                }
-
-                else {
-                    await navigate("/")
-                }
+                await createUser(nickname, phone, role)
+                await navigate("/")
             }
             
             catch (err) {
-                console.error(err.response)
+                console.error(err)
             }
 
             finally {

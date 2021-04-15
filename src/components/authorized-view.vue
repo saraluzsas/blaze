@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, reactive, toRef, toRefs } from "vue"
+import { computed, defineComponent, onBeforeMount, toRef } from "vue"
 import { useAuthStore } from "@stores/authStore"
 
 export default defineComponent({
@@ -26,7 +26,7 @@ export default defineComponent({
         })
 
         onBeforeMount(async function () {
-            await actions.fetchUser()
+            if (!state.user) await actions.fetchUser()
         })
 
         return { user, show }

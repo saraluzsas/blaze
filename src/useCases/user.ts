@@ -38,3 +38,15 @@ export async function findUserById(id: string) {
 export async function removeUser(id: string) {
     await axios.delete(`/user/${id}`)
 }
+
+export async function createUser(nickname: string, phone: string, role: string) {
+    const user = {
+        nickname: nickname.toLowerCase(),
+        phone: "+57" + phone,
+        role: role,
+    }
+
+    const res = await axios.post("/user", user)
+
+    if (res.data.error) throw new Error(res.data.message)
+}

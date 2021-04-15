@@ -14,6 +14,8 @@
             <img src="./auth-image.png" loading="lazy" alt="auth image">
         </div>
     </main>
+
+    <div id="recaptcha--container"></div>
 </template>
 
 <style lang="scss">
@@ -48,3 +50,18 @@
     }
 }
 </style>
+
+<script lang="ts">
+import { defineComponent, onMounted } from "vue"
+import { useSignIn } from "vue-use-firebase"
+
+export default defineComponent({
+    setup() {
+        const { setupRecaptcha } = useSignIn()
+
+        onMounted(async function () {
+            await setupRecaptcha("recaptcha--container", { size: "invisible" })
+        })
+    }
+})
+</script>

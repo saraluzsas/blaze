@@ -18,18 +18,25 @@ export async function createConsignment(photo: string, details: Detail[], note: 
     await axios.post("/consignment", consignment)
 }
 
-export async function listConsignment(constraints: any = undefined) {
+export async function listConsignment(filters: any) {
     try {
-        const res = await axios.get("/consignment", { params: constraints })
+        const res = await axios.get("/consignment", { params: filters })
 
-        if (res.data.error) {
-            console.error(res.data.message)
-            return []
-        }
+        if (res.data.error) throw new Error(res.data.message)
+        else return res.data
+    }
 
-        else {
-            return res.data
-        }
+    catch (err) {
+        console.error(err)
+    }
+}
+
+export async function exportConsignment(filters: any) {
+    try {
+        const res = await axios.get("/consignment/export", { params: filters })
+
+        if (res.data.error) throw new Error(res.data.message)
+        else return res.data
     }
 
     catch (err) {
