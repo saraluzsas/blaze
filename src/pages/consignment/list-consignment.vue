@@ -76,8 +76,6 @@ export default defineComponent({
             try {
                 const data = await listConsignment(toRaw(state))
 
-                console.log("hello")
-
                 state.limit = data.pages
                 state.sections = data.sections
             }

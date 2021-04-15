@@ -32,14 +32,12 @@ export async function listConsignment(filters: any) {
 }
 
 export async function exportConsignment(filters: any) {
-    try {
-        const res = await axios.get("/consignment/export", { params: filters })
+    const res = await axios.get("/consignment/export", { params: filters })
 
-        if (res.data.error) throw new Error(res.data.message)
-        else return res.data
-    }
+    if (res.data.error) throw new Error(res.data.message)
+    else return res.data
+}
 
-    catch (err) {
-        console.error(err)
-    }
+export function getPhotoURL(id: string) {
+    return `${import.meta.env.VITE_API_URL}/consignment/${id}/photo`
 }

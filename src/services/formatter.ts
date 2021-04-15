@@ -1,23 +1,23 @@
-export function toCurrency(value: number) {
+export function toCurrency(value: string | number) {
+    const number = parseInt(value.toString())
+
     const constraints: Intl.NumberFormatOptions = {
         currency: "COP",
         style: "currency",
         minimumFractionDigits: 0
     }
 
-    return value.toLocaleString("es-CO", constraints)
+    return number.toLocaleString("es-CO", constraints)
 }
 
 export function toTimeAgo(date: string) {
-    const formatter = new Intl.RelativeTimeFormat("es", { style: "long" })
+    const formatter = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "long", year: "numeric" })
 
     try {
         const timestamp = Date.parse(date)
         const elapsed = (Date.now() - timestamp) / 1_000
 
         const days = Math.floor(elapsed / 86_400)
-
-        if (days >= 5) return date
 
         switch (days) {
             case 0:
@@ -27,7 +27,7 @@ export function toTimeAgo(date: string) {
                 return "ayer"
 
             default:
-                return formatter.format(-days, "days")
+                return formatter.format(timestamp)
         }
     }
 
