@@ -1,13 +1,13 @@
 <template>
-    <div class="content xs-1 gap-md">
+    <div class="content grid-1 gap-md">
         <article class="container">
-            <div class="xs-1 gap-md">
+            <div class="grid-1 gap-md">
                 <consignment-detail
-                    v-for="(detail, index) in details"
-                    :key="index"
+                    v-for="detail in details"
+                    :key="detail.id"
                     :data="detail"
-                    @remove="removeDetail(index)"
-                    :canRemove="details.length > 1">
+                    :canRemove="details.length > 1"
+                    @remove="() => removeDetail(detail.id)">
                 </consignment-detail>
             </div>
 
@@ -51,7 +51,7 @@ export default defineComponent({
     setup() {
         const state = reactive({
             note: "",
-            details: [{ amount: "", date: "" }],
+            details: [{ id: Date.now(), amount: "", date: "" }],
 
             showCamera: false,
         })
@@ -63,11 +63,11 @@ export default defineComponent({
         // details
 
         function addDetail() {
-            state.details.push({ amount: "", date: "" })
+            state.details.push({ id: Date.now(), amount: "", date: "" })
         }
 
-        function removeDetail(index: number) {
-            state.details.splice(index, 1)
+        function removeDetail(id: number) {
+            state.details = state.details.filter(curr => curr.id !== id)
         }
 
         // save

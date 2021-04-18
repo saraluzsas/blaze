@@ -5,26 +5,7 @@
                 <img src="https://img.icons8.com/color/96/000000/circled-user-male-skin-type-1-2--v1.png">
 
                 <div class="info">
-                    <p>Andres Celis</p>
-                    <small>Desarrollador</small>
-                </div>
-            </div>
-
-            <button class="is-red" @click="showRemoveConfirmation = true">
-                <span>Eliminar</span>
-            </button>
-        </div>
-
-        <div class="fixed-backdrop flex-centered padding-md" v-if="showRemoveConfirmation">
-            <div class="modal-sm">
-                <div class="container padding-md">
-                    <p class="color-red">Eliminar usuario</p>
-                    <p>Estas a punto de eliminar este usuario, por lo que no podrá volver a acceder al sistema. Escribe el número del usuario para confirmar.</p>
-                </div>
-
-                <div class="wrapper padding-sm background-light border-top">
-                    <button class="is-red" @click="remove">Si, eliminar</button>
-                    <button @click="showRemoveConfirmation = false">Cancelar</button>
+                    <p class="text-capcase">{{ user.nickname }}</p>
                 </div>
             </div>
         </div>
@@ -93,8 +74,8 @@ img {
 </style>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "vue"
-import { findUserById, editUser, removeUser } from "@useCases/user"
+import { defineComponent, reactive } from "vue"
+import { findUserById, editUser } from "@useCases/user"
 import { useRoute, useRouter } from "vue-router"
 
 export default defineComponent({
@@ -127,7 +108,7 @@ export default defineComponent({
         const user = reactive({
             phone: phone,
             nickname: meta.nickname,
-            role: meta.role,
+            role: meta.role
         })
 
         async function save() {
@@ -143,24 +124,7 @@ export default defineComponent({
             }
         }
 
-        // remove
-
-        const showRemoveConfirmation = ref(false)
-
-        async function remove() {
-            try {
-                const id = params.id.toString()
-
-                await removeUser(id)
-                await navigate("/user")
-            }
-
-            catch (err) {
-                console.error(err)
-            }
-        }
-
-        return { user, save, remove, showRemoveConfirmation }
+        return { user, save }
     }
 })
 </script>

@@ -1,12 +1,11 @@
 <template>
-    <div class="toaster xs-1 gap-sm">
+    <div class="toaster grid-1 gap-sm">
         <div
-            class="border padding radius"
+            class="border padding radius background shadow-md"
             v-for="(toast, index) in toasts"
             :key="index">
 
-            <p class="text-firstcase">{{ toast.title }}</p>
-            <small v-if="toast.subtitle" :class="`text-${toast.color}`">{{ toast.subtitle.text }}</small>
+            <p class="text-firstcase" :class="{ 'color-red': toast.error }">{{ toast.text }}</p>
         </div>
     </div>
 </template>
@@ -28,7 +27,6 @@ import { useToaster } from "@stores/toasterStore"
 export default defineComponent({
     setup() {
         const { state } = useToaster()
-
         return { ...toRefs(state) }
     }
 })

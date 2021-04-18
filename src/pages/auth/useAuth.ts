@@ -2,6 +2,9 @@ import { onBeforeMount, reactive, toRefs } from "vue"
 import { useRouter } from "vue-router"
 import { useSignIn } from "vue-use-firebase"
 import { useAuthStore } from "@stores/authStore"
+import { useToaster } from "@stores/toasterStore"
+
+import axios from "axios"
 
 const AUTH_KEY = "auth-id"
 
@@ -9,6 +12,7 @@ export function useAuth() {
     const { actions } = useAuthStore()
     const { sendVerificationCode, signInPhoneNumber } = useSignIn()
     const { push: navigate } = useRouter()
+    const { actions: { notify: notify } } = useToaster()
 
     const state = reactive({
         phone: "",
@@ -26,12 +30,26 @@ export function useAuth() {
         state.isLoading = true
         
         try {
-            const id = await sendVerificationCode("+57" + state.phone)
+            const phone = "+57" + state.phone
 
-            localStorage.setItem(AUTH_KEY, id)
-            state.showVerification = true
+            // find user
 
-            await navigate({ name: "verify-code" })
+            const res = await axios.get(`/auth/phone/${phone}`)
+
+            if (res.data.error) {
+                throw new Error(res.data.message)
+            }
+
+            // send code
+
+            else {
+                const id = await sendVerificationCode("+57" + state.phone)
+
+                localStorage.setItem(AUTH_KEY, id)
+                state.showVerification = true
+
+                await navigate({ name: "verify-code" })
+            }
         }
 
         catch (err) {
@@ -50,10 +68,10 @@ export function useAuth() {
             const id = localStorage.getItem(AUTH_KEY)
 
             await signInPhoneNumber(id, state.code)
-            await navigate({ name: "home" })
-            await actions.fetchUser()
-            
             localStorage.removeItem(AUTH_KEY)
+
+            await actions.fetchUser()
+            await navigate({ name: "home" })
         }
 
         catch (err) {

@@ -1,5 +1,5 @@
 <template>
-    <div class="padding-md border-bottom background-light gap-md xs-1 md-2">
+    <div class="padding-md border-bottom background-light grid-1 grid-2-md gap-md">
         <div class="wrapper">
             <div class="wrapper">
                 <input
@@ -26,7 +26,7 @@
     </div>
 
     <div class="content">
-        <section class="xs-1 gap-md">
+        <section class="grid-1 gap-md">
             <article
                 class="container"
                 v-for="(section, index) in sections"

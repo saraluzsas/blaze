@@ -4,7 +4,7 @@
             <img src="https://img.icons8.com/color/144/000000/user-male-circle--v1.png">
         </div>
 
-        <div class="dropdown-list">
+        <div class="dropdown-right">
             <router-link to="/" class="dropdown-item">Inicio</router-link>
             <a class="dropdown-item">Cuenta</a>
 

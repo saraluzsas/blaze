@@ -1,4 +1,4 @@
-import { createPersistence, createStore } from "nuxel"
+import { createPersistence, createStore, createLogger } from "nuxel"
 import { signOut } from "vue-use-firebase"
 
 import axios from "axios"

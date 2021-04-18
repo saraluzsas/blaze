@@ -1,7 +1,7 @@
 <template>
-    <div class="fixed-backdrop flex-centered padding-md">
-        <div class="camera--modal modal-md padding-sm gap-md justify-center">
-            <div class="camera--video flex-centered">
+    <div class="fixed-backdrop flex-centered padding-sm">
+        <div class="modal-md content flex-centered">
+            <div class="height-md flex-centered">
                 <video class="radius-md" ref="videoRef" v-show="stream" autoplay></video>
 
                 <div class="loader-md" v-if="isLoading"></div>
@@ -27,18 +27,9 @@
 </template>
 
 <style lang="scss">
-.camera--modal {
-    .camera--video {
-        height: clamp(10rem, 60%, 20rem);
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-
-        video {
-            max-width: 95%;
-            max-height: 100%;
-        }
-    }
+video {
+    max-width: 95%;
+    max-height: 100%;
 }
 </style>
 

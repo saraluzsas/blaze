@@ -1,12 +1,5 @@
 import { createStore } from "nuxel"
 
-type Color = "primary" | "error" | "success"
-
-type Subtitle = {
-    text: string
-    color: Color
-}
-
 export const useToaster = createStore({
     id: "toaster",
     
@@ -15,7 +8,9 @@ export const useToaster = createStore({
     },
 
     actions: {
-        add(state, title: string, subtitle?: Subtitle) {
+        notify(state, text: string, error: boolean = false) {
+            const id = Date.now()
+
             const timeout = setTimeout(
                 function () {
                     clearTimeout(timeout)
@@ -25,7 +20,7 @@ export const useToaster = createStore({
                 6_000
             )
 
-            state.toasts.push({ title, subtitle })
+            state.toasts.push({ id, text, error })
         }
     }
 })

@@ -1,11 +1,11 @@
 <template>
     <div class="border radius">
-        <div class="background-light border-bottom padding flex-spaced" v-if="canRemove">
+        <div class="background-light border-bottom padding flex-spaced">
             <p class="text-xs">Consignación <span class="color-primary">{{ data.date }}</span></p>
-            <feather-icon name="x" class="cursor-pointer" @click="remove"></feather-icon>
+            <feather-icon name="x" class="cursor-pointer" v-if="canRemove" @click="$emit('remove')"></feather-icon>
         </div>
 
-        <div class="xs-1 md-2 gap-sm padding">
+        <div class="grid-1 grid-2-md gap-sm padding">
             <input
                 type="date"
                 v-model="data.date"
@@ -32,14 +32,6 @@ export default defineComponent({
         canRemove: {
             type: Boolean,
             default: true
-        }
-    },
-
-    setup(props, { emit }) {
-        const remove = () => emit("remove")
-
-        return {
-            remove
         }
     }
 })

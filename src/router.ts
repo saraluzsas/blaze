@@ -109,7 +109,7 @@ router.beforeEach(async function (to, from, next) {
         if (to.meta.role) {
             const { state, actions } = useAuthStore()
 
-            if (!state.user) await actions.fetchUser()
+            await actions.fetchUser()
 
             if (state.user.role === to.meta.role) next()
             else next("/401")
