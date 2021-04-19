@@ -26,7 +26,11 @@
     </div>
 
     <div class="content">
-        <section class="grid-1 gap-md">
+        <section class="flex-centered height-md" v-if="loading">
+            <div class="loader-md"></div>
+        </section>
+
+        <section class="grid-1 gap-md" v-else>
             <article
                 class="container"
                 v-for="(section, index) in sections"
@@ -43,17 +47,31 @@
                 </div>
             </article>
         </section>
-    </div>
 
-    <div class="flex-centered">
-        <div class="grouper">
-            <!-- TODO -->
+        <div class="flex-centered">
+            <div class="grouper">
+                <button @click="--page" :disabled="page === 0">
+                    <feather-icon name="chevron-left"></feather-icon>
+                </button>
+
+                <button
+                    v-for="number in pages"
+                    :class="{ 'color-primary': number === page + 1 }"
+                    @click="page = number - 1">
+
+                    <span>{{ number }}</span>
+                </button>
+
+                <button @click="++page" :disabled="page === (limit - 1)">
+                    <feather-icon name="chevron-right"></feather-icon>
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, reactive, toRaw, toRefs, watch } from "vue"
+import { computed, defineComponent, onBeforeMount, reactive, toRefs, watch } from "vue"
 import { exportConsignment, listConsignment } from "@useCases/consignment"
 import { toTimeAgo } from "@services/formatter"
 
@@ -68,13 +86,24 @@ export default defineComponent({
 
             page: 0,
             limit: 0,
+
+            loading: true,
         })
 
         // data
 
         async function obtainData() {
+            state.loading = true
+
             try {
-                const data = await listConsignment(toRaw(state))
+                const constraints = {
+                    from: state.from,
+                    to: state.to,
+                    page: state.page,
+                    search: state.search,
+                }
+
+                const data = await listConsignment(constraints)
 
                 state.limit = data.pages
                 state.sections = data.sections
@@ -82,6 +111,10 @@ export default defineComponent({
 
             catch (err) {
                 console.error(err)
+            }
+
+            finally {
+                state.loading = false
             }
         }
 
@@ -102,7 +135,14 @@ export default defineComponent({
 
         async function exportData() {
             try {
-                const csv = await exportConsignment(toRaw(state))
+                const constraints = {
+                    from: state.from,
+                    to: state.to,
+                    page: state.page,
+                    search: state.search,
+                }
+
+                const csv = await exportConsignment(constraints)
                 const link = document.createElement("a")
 
                 link.download = "consignment.csv"
@@ -116,11 +156,24 @@ export default defineComponent({
             }
         }
 
+        // pagination
+
+        const pages = computed(function () {
+            const max = Math.min(state.page + 4, state.limit)
+            const min = Math.min(state.page, state.limit - 4)
+
+            return new Array(state.limit)
+                .fill(0, 0)
+                .map((curr, index) => index + 1)
+                .slice(min, max)
+        })
+
         return {
             ...toRefs(state),
 
             exportData,
             toTimeAgo,
+            pages,
         }
     }
 })

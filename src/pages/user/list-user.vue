@@ -8,9 +8,13 @@
             </div>
         </div>
 
-        <section class="organizer shadow-xs">
+        <section class="flex-centered height-md" v-if="loading">
+            <div class="loader-md"></div>
+        </section>
+
+        <section class="organizer shadow-xs" v-else>
             <user-item
-                v-for="user in users"
+                v-for="user in list"
                 :key="user._key"
                 :data="user">
             </user-item>
@@ -19,30 +23,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue"
+import { defineComponent, onBeforeMount, reactive, toRefs } from "vue"
 import { listUser } from "@useCases/user"
-import { useRoute } from "vue-router"
 
 export default defineComponent({
-    async beforeRouteEnter(to, from, next) {
-        try {
-            const users = await listUser()
-
-            to.meta.list = users
-            next()
-        }
-
-        catch (err) {
-            console.error(err)
-        }
-    },
-
     setup() {
-        const { meta } = useRoute()
+        const state = reactive({
+            list: [],
+            loading: true,
+        })
 
-        const users = ref(meta.list || [])
+        onBeforeMount(async function () {
+            state.loading = true
 
-        return { users }
+            try {
+                state.list = await listUser()
+            }
+
+            catch (err) {
+                console.error(err)
+            }
+
+            finally {
+                state.loading = false
+            }
+        })
+
+        return {
+            ...toRefs(state)
+        }
     }
 })
 </script>

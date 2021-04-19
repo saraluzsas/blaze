@@ -10,12 +10,12 @@ export function toCurrency(value: string | number) {
     return number.toLocaleString("es-CO", constraints)
 }
 
-export function toTimeAgo(date: string) {
-    const formatter = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "long", year: "numeric" })
+export function toTimeAgo(text: string) {
+    const formatter = new Intl.DateTimeFormat("es-CO", { day: "2-digit", month: "long", year: "numeric", timeZone: "UTC" })
 
     try {
-        const timestamp = Date.parse(date)
-        const elapsed = (Date.now() - timestamp) / 1_000
+        const timestamp = Date.parse(text)
+        const elapsed = Math.abs(Date.now() - timestamp) / 1_000
 
         const days = Math.floor(elapsed / 86_400)
 
@@ -33,6 +33,6 @@ export function toTimeAgo(date: string) {
 
     catch (err) {
         console.error(err)
-        return date
+        return text
     }
 }
