@@ -15,7 +15,7 @@
         </div>
     </main>
 
-    <div id="recaptcha--container"></div>
+    <div id="recaptcha--container" ref="captchaContainer"></div>
 </template>
 
 <style lang="scss">
@@ -52,16 +52,21 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue"
+import { defineComponent, onMounted, ref } from "vue"
 import { useSignIn } from "vue-use-firebase"
 
 export default defineComponent({
     setup() {
         const { setupRecaptcha } = useSignIn()
 
+        const captchaContainer = ref<HTMLDivElement>(null)
+
         onMounted(async function () {
+            captchaContainer.value.innerHTML = ""
             await setupRecaptcha("recaptcha--container", { size: "invisible" })
         })
+
+        return { captchaContainer }
     }
 })
 </script>

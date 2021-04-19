@@ -6,7 +6,6 @@
 
         <div class="dropdown-right">
             <router-link to="/" class="dropdown-item">Inicio</router-link>
-            <a class="dropdown-item">Cuenta</a>
 
             <hr>
 
