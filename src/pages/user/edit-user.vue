@@ -57,7 +57,7 @@
             </div>
 
             <div class="wrapper">
-                <button class="is-green">
+                <button class="is-green" :class="{ 'has-loader': loading }">
                     <span>Guardar</span>    
                 </button>
 
@@ -74,9 +74,9 @@ img {
 </style>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue"
+import { defineComponent, reactive, ref } from "vue"
 import { findUserById, editUser } from "@useCases/user"
-import { useRoute, useRouter } from "vue-router"
+import { useRoute } from "vue-router"
 
 export default defineComponent({
     async beforeRouteEnter(to, from, next) {
@@ -101,30 +101,33 @@ export default defineComponent({
 
     setup() {
         const { meta, params } = useRoute()
-        const { push: navigate } = useRouter()
 
-        const phone = (meta.phone as string)?.split("+57")[1]
+        const loading = ref(false)
 
         const user = reactive({
-            phone: phone,
+            phone: (meta.phone as string)?.split("+57")[1],
             nickname: meta.nickname,
-            role: meta.role
+            role: meta.role,
         })
 
         async function save() {
+            loading.value = true
+
             try {
                 const id = params.id.toString()
-
                 await editUser(id, { ...user, phone: "+57" + user.phone })
-                await navigate("/user")
             }
 
             catch (err) {
                 console.error(err)
             }
+
+            finally {
+                loading.value = false
+            }
         }
 
-        return { user, save }
+        return { user, save, loading }
     }
 })
 </script>

@@ -28,7 +28,12 @@
         </div>
 
         <div class="wrapper">
-            <button class="is-primary" @click="showCamera = true" :disabled="disabled">
+            <button
+                class="is-primary"
+                @click="showCamera = true"
+                :disabled="disabled"
+                :class="{ 'has-loader': loading }">
+
                 <feather-icon name="camera"></feather-icon>
                 <span>Tomar foto</span>
             </button>
@@ -45,7 +50,6 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue"
 import { createConsignment } from "@useCases/consignment"
-import { useRouter } from "vue-router"
 
 export default defineComponent({
     setup() {
@@ -54,6 +58,7 @@ export default defineComponent({
             details: [{ id: Date.now(), amount: "", date: "" }],
 
             showCamera: false,
+            loading: false,
         })
 
         const disabled = computed(function () {
@@ -72,18 +77,20 @@ export default defineComponent({
 
         // save
 
-        const { push: navigate } = useRouter()
-
         async function save(photo: string) {
             state.showCamera = false
+            state.loading = true
 
             try {
                 await createConsignment(photo, state.details, state.note)
-                await navigate("/")
             }
 
             catch (err) {
                 console.error(err)
+            }
+
+            finally {
+                state.loading = false
             }
         }
 

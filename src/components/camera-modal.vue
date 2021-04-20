@@ -11,16 +11,16 @@
                 </div>
             </div>
 
-            <div class="wrapper justify-center">
+            <div class="wrapper justify-center" v-if="!isLoading">
                 <button
                     class="is-green"
                     @click="takePicture"
-                    :disabled="isLoading || !available">
+                    :disabled="!available">
 
                     <span>Capturar y guardar</span>
                 </button>
 
-                <button :disabled="isLoading" @click="close">Cancelar</button>
+                <button @click="close">Cancelar</button>
             </div>
         </div>
     </div>

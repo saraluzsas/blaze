@@ -23,7 +23,8 @@
                 <button
                     type="submit"
                     class="is-primary is-spread"
-                    :disabled="isLoading">
+                    :disabled="isLoading"
+                    :class="{ 'has-loader': isLoading }">
 
                     <span>Continuar</span>
                 </button>
