@@ -62,7 +62,7 @@
                     <span>{{ number }}</span>
                 </button>
 
-                <button @click="++page" :disabled="page === (limit - 1)">
+                <button @click="++page" :disabled="limit <= page">
                     <feather-icon name="chevron-right"></feather-icon>
                 </button>
             </div>

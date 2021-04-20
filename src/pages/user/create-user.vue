@@ -52,7 +52,7 @@
                 <button
                     type="submit"
                     class="is-primary"
-                    :disabled="disabled || loading"
+                    :disabled="disabled"
                     :class="{ 'has-loader': loading }">
 
                     <span>Registrar</span>    

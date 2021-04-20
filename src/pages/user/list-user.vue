@@ -1,6 +1,12 @@
 <template>
     <div class="content">
-        <div class="flex justify-end">
+        <div class="wrapper">
+            <input
+                type="text"
+                class="input is-spread"
+                v-model="search"
+                placeholder="Buscar">
+
             <div class="wrapper">
                 <router-link :to="{ name: 'user-new' }" class="button is-primary">
                     <span>Crear nuevo</span>
@@ -14,7 +20,7 @@
 
         <section class="organizer shadow-xs" v-else>
             <user-item
-                v-for="user in list"
+                v-for="user in users"
                 :key="user._key"
                 :data="user">
             </user-item>
@@ -23,13 +29,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, reactive, toRefs } from "vue"
+import { computed, defineComponent, onBeforeMount, reactive, toRefs } from "vue"
 import { listUser } from "@useCases/user"
 
 export default defineComponent({
     setup() {
         const state = reactive({
             list: [],
+
+            search: "",
             loading: true,
         })
 
@@ -49,8 +57,17 @@ export default defineComponent({
             }
         })
 
+        const users = computed(function () {
+            return state.list
+                .filter(user => {
+                    const name: string = user.nickname.toLowerCase()
+                    return name.includes(state.search.toLowerCase())
+                })
+        })
+
         return {
-            ...toRefs(state)
+            ...toRefs(state),
+            users
         }
     }
 })

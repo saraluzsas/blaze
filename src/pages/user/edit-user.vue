@@ -57,7 +57,11 @@
             </div>
 
             <div class="wrapper">
-                <button class="is-green" :class="{ 'has-loader': loading }">
+                <button
+                    class="is-green"
+                    :class="{ 'has-loader': loading }"
+                    :disabled="loading">
+
                     <span>Guardar</span>    
                 </button>
 
