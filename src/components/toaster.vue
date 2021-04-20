@@ -1,11 +1,12 @@
 <template>
     <div class="toaster grid-1 gap-sm">
         <div
-            class="border padding radius background shadow-md"
+            class="padding-xs rounded background shadow-md"
             v-for="(toast, index) in toasts"
+            :class="toast.error ? 'background-red' : 'background-green'"
             :key="index">
 
-            <p class="text-firstcase" :class="{ 'color-red': toast.error }">{{ toast.text }}</p>
+            <p class="text-firstcase color-white">{{ toast.text }}</p>
         </div>
     </div>
 </template>

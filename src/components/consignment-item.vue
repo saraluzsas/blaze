@@ -1,5 +1,5 @@
 <template>
-    <div class="consignment--item flex-spaced border radius padding-sm cursor-pointer" @click="show = true">
+    <div class="consignment--item flex-spaced border rounded padding-sm cursor-pointer" @click="show = true">
         <div class="wrapper align-center">
             <img src="https://img.icons8.com/color/96/000000/cash-.png">
         
@@ -22,7 +22,7 @@
             <div class="modal-bg padding-md">
                 <div class="grid-1 grid-2-md gap-md">
                     <div class="container container--image">
-                        <img :src="image" :alt="data._key" class="radius-md shadow">
+                        <img :src="image" :alt="data._key" class="rounded-md shadow">
 
                         <div class="container gap-md padding-sm">
                             <p class="color-primary text-capcase">{{ data.author }}</p>
@@ -46,7 +46,7 @@
 
                         <div class="organizer container--details">
                             <div
-                                class="border radius padding-sm"
+                                class="border rounded padding-sm"
                                 v-for="(detail, key) in data.details"
                                 :key="key">
 

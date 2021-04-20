@@ -1,5 +1,5 @@
 <template>
-    <div class="border radius">
+    <div class="border rounded">
         <div class="background-light border-bottom padding flex-spaced">
             <p class="text-xs">Consignación <span class="color-primary">{{ data.date }}</span></p>
             <feather-icon name="x" class="cursor-pointer" v-if="canRemove" @click="$emit('remove')"></feather-icon>

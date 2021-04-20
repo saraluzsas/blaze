@@ -12,7 +12,7 @@ export function useAuth() {
     const { actions } = useAuthStore()
     const { sendVerificationCode, signInPhoneNumber } = useSignIn()
     const { push: navigate } = useRouter()
-    const { actions: { notify: notify } } = useToaster()
+    const { actions: { notify } } = useToaster()
 
     const state = reactive({
         phone: "",
@@ -36,7 +36,7 @@ export function useAuth() {
 
             const res = await axios.get(`/auth/phone/${phone}`)
 
-            if (res.data.error) {
+            if (res.data.error || res.data.message) {
                 throw new Error(res.data.message)
             }
 
@@ -53,6 +53,7 @@ export function useAuth() {
         }
 
         catch (err) {
+            notify(err.message, true)
             console.error(err)
         }
 

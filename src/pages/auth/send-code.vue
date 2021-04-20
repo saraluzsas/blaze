@@ -1,7 +1,7 @@
 <template>
     <h3>Iniciar sesión</h3>
 
-    <p>Ingresa tu número de teléfono para continuar.</p>
+    <p>Ingresa tu número de teléfono corporativo para continuar.</p>
 
     <form @submit.prevent="sendCode">
         <div class="container">
@@ -15,6 +15,7 @@
                     v-model="phone"
                     class="input is-spread"
                     placeholder="300 0000 000"
+                    pattern="[0-9]+"
                     autocomplete="off"
                     minlength="10"
                     maxlength="10"

@@ -2,7 +2,7 @@
     <template class="container" v-if="show">
         <h3>Un paso más</h3>
 
-        <p>Hemos enviado un mensaje de texto con un código de verificación, escribelo a continuación.</p>
+        <p>Hemos enviado un mensaje de texto con un código de verificación de 6 digitos, escribelo a continuación.</p>
 
         <form @submit.prevent="verifyCode">
             <div class="container">
@@ -13,10 +13,13 @@
                     v-model="code"
                     class="input is-spread"
                     placeholder="000 000"
+                    pattern="[0-9]{6}"
                     autocomplete="off"
                     minlength="6"
                     maxlength="6"
                     required>
+
+                <small>El código puede demorar un tiempo.</small>
             </div>
 
             <div class="wrapper">

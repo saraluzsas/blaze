@@ -1,7 +1,7 @@
 <template>
     <router-link
         :to="{ name: 'user-edit', params: { id: data._key } }"
-        class="border radius padding-sm flex-spaced align-center cursor-pointer">
+        class="border rounded padding-sm flex-spaced align-center cursor-pointer">
 
         <div class="wrapper gap-sm align-center">
             <img src="https://img.icons8.com/color/96/000000/circled-user-male-skin-type-1-2--v1.png" loading="lazy">

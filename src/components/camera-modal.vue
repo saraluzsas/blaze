@@ -2,7 +2,7 @@
     <div class="fixed-backdrop flex-centered padding-sm">
         <div class="modal-md content flex-centered">
             <div class="height-md flex-centered">
-                <video class="radius-md" ref="videoRef" v-show="stream" autoplay></video>
+                <video class="rounded-md" ref="videoRef" v-show="stream" autoplay></video>
 
                 <div class="loader-md" v-if="isLoading"></div>
 

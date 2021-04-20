@@ -29,11 +29,9 @@ axios.interceptors.response.use(res => {
     if (res.data["message"]) {
         const { actions } = useToaster()
         
-        if (res.data.error) {
-            actions.notify(res.data.message, true)
+        if (res.data.message) {
+            actions.notify(res.data.message, res.data.error || false)
         }
-
-        else actions.notify(res.data["message"])
     }
 
     return res
