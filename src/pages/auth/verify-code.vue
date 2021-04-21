@@ -19,7 +19,7 @@
                     maxlength="6"
                     required>
 
-                <small>El código puede demorar un tiempo.</small>
+                <small>El código puede demorar un tiempo. <router-link to="/sign">Reenviar</router-link>.</small>
             </div>
 
             <div class="wrapper">

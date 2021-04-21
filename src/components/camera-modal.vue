@@ -28,7 +28,7 @@
 
 <style lang="scss">
 video {
-    max-width: 95%;
+    max-width: 85%;
     max-height: 100%;
 }
 </style>
@@ -53,8 +53,8 @@ export default defineComponent({
                 const constraints: MediaStreamConstraints = {
                     audio: false,
                     video: {
-                        width: 720,
-                        height: 410,
+                        width: { ideal: 4096 },
+                        height: { ideal: 2160 }
                     }
                 }
 

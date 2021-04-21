@@ -41,3 +41,8 @@ export async function exportConsignment(filters: any) {
 export function getPhotoURL(id: string) {
     return `${import.meta.env.VITE_API_URL}/consignment/${id}/photo`
 }
+
+export async function removeConsignment(id: string) {
+    const res = await axios.delete(`/consignment/${id}`)
+    if (res.data.error) throw new Error(res.data.message)
+}

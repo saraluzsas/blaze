@@ -25,9 +25,8 @@ export const useAuthStore = createStore({
         },
 
         async signOut(state) {
-            await signOut()
-
             state.user = undefined
+            await signOut()
         },
     },
 

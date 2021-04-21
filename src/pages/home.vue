@@ -1,6 +1,11 @@
 <template>
     <div class="content-md flex-centered text-center">
         <h3>Te damos la bienvenida</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid ipsa culpa error ipsam excepturi ipsum, nobis, totam nisi esse nihil unde ullam deserunt numquam. Sed ut quisquam tempore ab illum!</p>
+        <p>Bienvenido al sistema del departamento de auditoria y ventas para la gestión en tienda, mediante el mismo podras registrar tus movimientos y reportarlos en tiempo record al departamento.</p>
+
+        <hr>
+
+        <a href="mailto:ventas.recaudo@saraluz.com.co">ventas.recaudo@saraluz.com.co</a>
+        <a href="mailto:auditoria@saraluz.com.co">auditoria@saraluz.com.co</a>
     </div>
 </template>

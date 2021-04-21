@@ -42,7 +42,8 @@
                     <consignment-item
                         v-for="consignment in section.content"
                         :key="consignment._key"
-                        :data="consignment">
+                        :data="consignment"
+                        @refresh="refresh">
                     </consignment-item>
                 </div>
             </article>
@@ -75,7 +76,13 @@ import { computed, defineComponent, onBeforeMount, reactive, toRefs, watch } fro
 import { exportConsignment, listConsignment } from "@useCases/consignment"
 import { toTimeAgo } from "@services/formatter"
 
+import ConsignmentItem from "./consignment-item/consignment-item.vue"
+
 export default defineComponent({
+    components: {
+        ConsignmentItem,
+    },
+
     setup() {
         const state = reactive({
             sections: [],
@@ -170,6 +177,7 @@ export default defineComponent({
 
         return {
             ...toRefs(state),
+            refresh: obtainData,
 
             exportData,
             toTimeAgo,

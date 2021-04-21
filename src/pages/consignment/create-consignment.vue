@@ -12,8 +12,12 @@
             </div>
 
             <div class="flex-spaced">
-                <span></span>
-                <a class="color-primary cursor-pointer text-xs" @click="addDetail">Agregar</a>
+                <a class="color-primary cursor-pointer text-xs text-uppcase" @click="addDetail">Agregar</a>
+
+                <div class="wrapper align-center">
+                    <p class="text-uppcase text-xs">Subtotal</p>
+                    <p>{{ total }}</p>
+                </div>
             </div>
         </article>
 
@@ -31,10 +35,9 @@
             <button
                 class="is-primary"
                 @click="showCamera = true"
-                :disabled="disabled"
-                :class="{ 'has-loader': loading }">
+                :class="{ 'has-loader': loading }"
+                :disabled="disabled || loading">
 
-                <feather-icon name="camera"></feather-icon>
                 <span>Tomar foto</span>
             </button>
         </div>
@@ -50,6 +53,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from "vue"
 import { createConsignment } from "@useCases/consignment"
+import { toCurrency } from "@services/formatter"
 
 export default defineComponent({
     setup() {
@@ -63,6 +67,14 @@ export default defineComponent({
 
         const disabled = computed(function () {
             return state.details.some(detail => detail.amount === "" || detail.date === "")
+        })
+
+        const total = computed(function () {
+            const sum = state.details
+                .map(curr => parseInt(curr.amount) || 0)
+                .reduce((prev, curr) => prev += curr || 0, 0)
+    
+            return toCurrency(sum)
         })
 
         // details
@@ -82,7 +94,12 @@ export default defineComponent({
             state.loading = true
 
             try {
+                window.onbeforeunload = function () {
+                    return ""
+                }
+
                 await createConsignment(photo, state.details, state.note)
+                window.onbeforeunload = undefined
             }
 
             catch (err) {
@@ -91,12 +108,16 @@ export default defineComponent({
 
             finally {
                 state.loading = false
+
+                state.details = [{ id: Date.now(), amount: "", date: "" }]
+                state.note = ""
             }
         }
 
         return {
             ...toRefs(state),
             disabled,
+            total,
 
             addDetail,
             removeDetail,
