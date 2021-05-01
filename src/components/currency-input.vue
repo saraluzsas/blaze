@@ -4,7 +4,7 @@
         class="input is-spread"
         placeholder="$ 0"
         :value="state.value"
-        @keyup="onKeyUp"
+        @input="onInput"
         v-bind="$attrs">
 </template>
 
@@ -47,7 +47,29 @@ export default defineComponent({
             }
         }
 
-        return { state, onKeyUp }
+        function onInput(event: InputEvent) {
+            const reg = /[0-9]+/
+
+            if (reg.test(event.data) || event.inputType === "deleteContentBackward") {
+                try {
+                    const value = event.target["value"].replace(/\D/g, "")
+                    let number = parseInt(value)
+
+                    state.value = isNaN(number) ? "" : toCurrency(number)
+                    emit("update:modelValue", isNaN(number) ? "" : number.toString())
+                }
+
+                catch (err) {
+                    console.error(err)
+                }
+            }
+
+            else {
+                event.preventDefault()
+            }
+        }
+
+        return { state, onKeyUp, onInput }
     }
 })
 </script>

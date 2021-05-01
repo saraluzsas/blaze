@@ -53,7 +53,24 @@ export function useAuth() {
         }
 
         catch (err) {
-            notify(err.message, true)
+            if (err.code) {
+                switch (err.code) {
+                    case "auth/too-many-requests": {
+                        notify("demasiados intentos, por favor intente mas tarde", true)
+                        break
+                    }
+
+                    default: {
+                        notify("intenta mas tarde", true)
+                        break
+                    }
+                }
+            }
+
+            else {
+                notify(err.message, true)
+            }
+
             console.error(err)
         }
 
@@ -76,6 +93,29 @@ export function useAuth() {
         }
 
         catch (err) {
+            if (err.code) {
+                // catch a firebase error
+
+                switch (err.code) {
+                    case "auth/invalid-verification-code": {
+                        notify("código incorrecto", true)
+                        break
+                    }
+
+                    default: {
+                        notify("el código ha expirado, intenta enviar otro", true)
+
+                        localStorage.removeItem(AUTH_KEY)
+                        await navigate("/sign")
+                    }
+                }
+
+            }
+
+            else {
+                notify(err.message, true)
+            }
+
             console.error(err)
         }
 

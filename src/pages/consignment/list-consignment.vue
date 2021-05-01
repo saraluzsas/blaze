@@ -1,5 +1,5 @@
 <template>
-    <div class="padding-md border-bottom background-light grid-1 grid-2-md gap-md">
+    <header class="padding-md border-bottom background-light grid-1 grid-md-2 gap-md">
         <div class="wrapper">
             <div class="wrapper">
                 <input
@@ -23,22 +23,22 @@
 
             <button class="is-primary" @click="exportData">Exportar</button>
         </div>
-    </div>
+    </header>
 
-    <div class="content">
+    <div class="content-md">
         <section class="flex-centered height-md" v-if="loading">
             <div class="loader-md"></div>
         </section>
 
         <section class="grid-1 gap-md" v-else>
             <article
-                class="container"
+                class="container gap-md"
                 v-for="(section, index) in sections"
                 :key="index">
 
                 <p class="text-firstcase">{{ toTimeAgo(section.title) }}</p>
 
-                <div class="organizer shadow-xs">
+                <div class="grid-1 gap-md">
                     <consignment-item
                         v-for="consignment in section.content"
                         :key="consignment._key"
@@ -76,7 +76,7 @@ import { computed, defineComponent, onBeforeMount, reactive, toRefs, watch } fro
 import { exportConsignment, listConsignment } from "@useCases/consignment"
 import { toTimeAgo } from "@services/formatter"
 
-import ConsignmentItem from "./consignment-item/consignment-item.vue"
+import ConsignmentItem from "./consignment-item.vue"
 
 export default defineComponent({
     components: {

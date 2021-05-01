@@ -11,19 +11,17 @@
                 </consignment-detail>
             </div>
 
-            <div class="flex-spaced">
-                <a class="color-primary cursor-pointer text-xs text-uppcase" @click="addDetail">Agregar</a>
+            <div class="flex-spaced padding-sm align-center text-sm">
+                <a class="color-primary cursor-pointer" @click="addDetail">Agregar</a>
 
                 <div class="wrapper align-center">
-                    <p class="text-uppcase text-xs">Subtotal</p>
+                    <p class="text-uppcase">Total</p>
                     <p>{{ total }}</p>
                 </div>
             </div>
         </article>
 
         <div class="container">
-            <label for="note">Nota</label>
-
             <textarea
                 id="note"
                 class="input"

@@ -1,7 +1,7 @@
 <template>
     <div class="fixed-backdrop flex-centered padding-sm">
         <div class="modal-md content flex-centered">
-            <div class="height-md flex-centered">
+            <div class="camera--video flex-centered">
                 <video class="rounded-md" ref="videoRef" v-show="stream" autoplay></video>
 
                 <div class="loader-md" v-if="isLoading"></div>
@@ -27,9 +27,13 @@
 </template>
 
 <style lang="scss">
-video {
-    max-width: 85%;
-    max-height: 100%;
+.camera--video {
+    height: 80%;
+
+    video {
+        max-width: 100%;
+        max-height: 100%;
+    }
 }
 </style>
 
@@ -54,8 +58,9 @@ export default defineComponent({
                     audio: false,
                     video: {
                         width: { ideal: 4096 },
-                        height: { ideal: 2160 }
-                    }
+                        height: { ideal: 2160 },
+                        noiseSuppression: true,
+                    },
                 }
 
                 const stream = await navigator.mediaDevices.getUserMedia(constraints)
